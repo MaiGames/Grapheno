@@ -18,7 +18,7 @@ function createWindow () {
   mainWindow.setTitle("Grapheno")
 
   // load the index.html of the app.
-  mainWindow.loadURL(path.join(__dirname, 'html/index.html'))
+  mainWindow.loadURL(path.join(__dirname, './html/index.html'))
 
   mainWindow.setMenuBarVisibility(false)
 
