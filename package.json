@@ -4,7 +4,7 @@
   "description": "Pixelart Software",
   "main": "src/js/main.js",
   "scripts": {
-    "start": "electron ."
+    "start": ".\\node_modules\\electron\\dist\\electron.exe ."
   },
   "repository": "https://github.com/electron/electron-quick-start",
   "keywords": [
