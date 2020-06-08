@@ -7,10 +7,8 @@ var mainWindow = new win.WindowManager()
 
 ipcMain.on("setGlobalVar", (event, globalProperty, value) => {
 
-  console.log(globalProperty + " = " + global[globalProperty])
   global[globalProperty] = value
-  console.log(globalProperty + ", " + value)
-  console.log(globalProperty + " = " + global[globalProperty])
+  console.log("Changed/Defined value of global var '"+ globalProperty +"' in main process")
 
 })
 
@@ -32,8 +30,6 @@ function createWindow() {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(() => {
-
-  global.firstInit = true
 
   createWindow()
 
