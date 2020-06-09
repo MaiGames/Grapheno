@@ -66,7 +66,7 @@
         }
       ],
       "icon": "assets/ico-256.ico",
-      "publish": ["bintray"]
+      "publish": ["github"]
     },
     "nsis": {
       "runAfterFinish": true,
