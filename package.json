@@ -2,7 +2,7 @@
   "name": "grapheno",
   "version": "1.0.0",
   "description": "Pixelart Software",
-  "main": "src/js/main.js",
+  "main": "src/js/main_process/main.js",
   "scripts": {
     "start": ".\\node_modules\\electron\\dist\\electron.exe ."
   },
@@ -20,6 +20,8 @@
     "electron": "^9.0.2"
   },
   "dependencies": {
-    "bulma": "^0.8.2"
+    "bulma": "^0.8.2",
+    "v8-compile-cache": "^2.1.1",
+    "webpack": "^4.43.0"
   }
 }

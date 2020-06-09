@@ -1,12 +1,12 @@
 const {app, BrowserWindow} = require('electron')
 
-class WindowManager {
+class Window {
 
     window = null
 
     constructor() { }
     
-    createWindow(title, width, height, preload, showUntilLoaded, frame) {
+    createWindow(title, width, height, preload, showUntilLoaded = true, frame = true, minResMultiplier = 0.5) {
         this.window = new BrowserWindow({
             width: width,
             height: height,
@@ -15,14 +15,16 @@ class WindowManager {
             webPreferences: {
                 preload: preload,
                 nodeIntegration: true,
-                transparent: true,
-                enableRemoteModule: true
+                transparent: showUntilLoaded,
+                enableRemoteModule: true,
             }
         })
 
         this.window.setTitle(title)
 
         this.window.setMenuBarVisibility(false)
+
+        this.window.setMinimumSize(width * minResMultiplier, height * minResMultiplier)
 
         if(showUntilLoaded) {
             const win = this.window
@@ -43,4 +45,4 @@ class WindowManager {
 
 }
 
-module.exports.WindowManager = WindowManager
+module.exports.Window = Window

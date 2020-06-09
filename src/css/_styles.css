@@ -43,7 +43,7 @@ body {
    
     padding: 0px;
    
-    margin: 0px; 
+    /*margin: auto;*/ 
    
     font-family: sans-serif;
    
@@ -59,12 +59,14 @@ body {
 
     line-height: 32px;
 
-    align-items: center;
-
     font-size: 14px;
 
     text-align: center;
    
+    width: 93%;
+
+    margin: 0 auto;
+
     color: #bdbdbd;
 
 }

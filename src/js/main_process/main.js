@@ -1,26 +1,24 @@
 // Modules to control application life and create native browser window
 const {ipcMain, app, BrowserWindow} = require('electron')
 const path = require('path')
-const win = require('./manager/WindowManager')
+const win = require('./window')
+const globalVars = require('../util/across_global_variables')
 
-var mainWindow = new win.WindowManager()
+require('v8-compile-cache') //optimization
 
-ipcMain.on("setGlobalVar", (event, globalProperty, value) => {
+const mainWindow = new win.Window()
 
-  global[globalProperty] = value
-  console.log("Changed/Defined value of global var '"+ globalProperty +"' in main process")
+function init() {
 
-})
+  globalVars.registerMainProcessEvts(ipcMain)
 
-function createWindow() {
-  
-  mainWindow.createWindow("Grapheno", 800, 600, path.join(__dirname, 'preload.js'), true, false)
+  mainWindow.createWindow("Grapheno", 800, 600, path.join(__dirname, '../preload.js'), true, false, 0.7)
 
-  mainWindow.setBGColor("#212121")
+  mainWindow.setBGColor("#1E1E1E")
 
-  mainWindow.load(path.join(__dirname, '../html/index.html'))
+  mainWindow.load(path.join(__dirname, '../../html/main_hub.html'))
 
-  mainWindow.window.setIcon(path.join(__dirname, "../../assets/ico-256.png"))
+  mainWindow.window.setIcon(path.join(__dirname, "../../../assets/ico-256.png"))
 
   mainWindow.window.toggleDevTools()
 
@@ -31,12 +29,12 @@ function createWindow() {
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(() => {
 
-  createWindow()
+  init()
 
   app.on('activate', function () {
     // On macOS it's common to re-create a window in the app when the
     // dock icon is clicked and there are no other windows open.
-    if (BrowserWindow.getAllWindows().length === 0) createWindow()
+    if (BrowserWindow.getAllWindows().length === 0) init()
   })
 
 })

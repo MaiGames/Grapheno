@@ -1,0 +1,38 @@
+#right-sidebar {
+
+    height: 100%;
+    width: calc(11em + 12vw);
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    right: 0;
+
+    background-color: #252526;
+    overflow-x: hidden;
+    padding-top: 20px;
+
+}
+
+#recent-txt {
+    
+    position: absolute;
+   
+    top: 55px;
+
+    left: 12px; 
+
+    line-height: 32px;
+
+    font-size: calc(1.4em + 0.6vw);
+
+    text-align: center;
+   
+    width: 93%;
+
+    margin: auto;
+
+    color: #bdbdbd;
+
+    font-family: sans-serif;
+
+}
