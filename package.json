@@ -100,5 +100,5 @@
     "electron-builder": "^22.7.0",
     "rimraf": "^2.6.3",
     "run-script-os-fix": "^1.0.4"
-  },
+  }
 }
