@@ -96,5 +96,12 @@
     "bulma": "^0.8.2",
     "v8-compile-cache": "^2.1.1",
     "webpack": "^4.43.0"
+    "electron-is-dev": "^1.0.1"
   }
+  "devDependencies": {
+    "electron": "^5.0.1",
+    "electron-builder": "^20.40.2",
+    "rimraf": "^2.6.3",
+    "run-script-os-fix": "^1.0.4"
+  },
 }
