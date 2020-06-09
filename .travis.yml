@@ -38,6 +38,7 @@ script:
     if [ "$TRAVIS_OS_NAME" == "linux" ]; then
       docker run --rm \
         -e BT_TOKEN=$BT_TOKEN \
+        -e GH_TOKEN=$GH_TOKEN \
         -v $PWD:/project \
         -v ~/.cache/electron:/root/.cache/electron \
         -v ~/.cache/electron-builder:/root/.cache/electron-builder \
