@@ -7,7 +7,7 @@
     top: 0;
     right: 0;
 
-    background-color: #252526;
+    background-color: #333333;
     overflow-x: hidden;
     padding-top: 20px;
 
@@ -34,5 +34,26 @@
     color: #bdbdbd;
 
     font-family: sans-serif;
+
+}
+
+#left-bottom-bar {
+
+    resize: top;
+    overflow: auto;
+    
+    height: 35%;
+    width: calc(53.96em + 12vw);
+    position: fixed;
+    z-index: 0;
+    bottom: 0;
+    left: 0;
+
+    border-top: 1.5px solid #414141;
+    /*border-right: 1.5px solid #414141; */
+
+    background-color: #252526;
+    overflow-x: hidden;
+    padding-top: 20px;
 
 }
