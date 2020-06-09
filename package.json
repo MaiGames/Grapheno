@@ -21,9 +21,76 @@
     "Drawing"
   ],
   "author": "MaiGames Studios",
-  "license": "CC0-1.0",
+  "license": "MIT",
   "devDependencies": {
     "electron": "^9.0.2"
+  },
+  "build": {
+    "appId": "com.github.maigames.grapheno",
+    "productName": "Grapheno",
+    "copyright": "MIT",
+    "files": [
+      "**/*",
+      "build/Release/*",
+      "assets/*.*",
+      "src/css/*.*",
+      "src/html/*.*",
+      "src/css/*.*"
+    ],
+    "mac": {
+      "category": "public.build.automation",
+      "icon": "assets/ico-256.ico"
+    },
+    "dmg": {
+      "contents": [
+        {
+          "x": 110,
+          "y": 150
+        },
+        {
+          "x": 440,
+          "y": 150,
+          "type": "link",
+          "path": "/Applications"
+        }
+      ],
+      "artifactName": "grapheno-${version}.${ext}"
+    },
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        },
+        {
+          "target": "portable"
+        }
+      ],
+      "icon": "assets/ico-256.ico"
+    },
+    "nsis": {
+      "runAfterFinish": true,
+      "installerIcon": "assets/ico-256.ico",
+      "artifactName": "grapheno-${version}.${ext}"
+    },
+    "portable": {
+      "artifactName": "grapheno.exe"
+    },
+    "appx": {
+      "applicationId": "grapheno",
+      "backgroundColor": "#1E1E1E",
+      "identityName": "grapheno",
+      "publisherDisplayName": "MaiGames Studios",
+      "artifactName": "grapheno-${version}.${ext}"
+    },
+    "publish": [
+      {
+        "provider": "github",
+        "releaseType": "release"
+      }
+    ]
   },
   "dependencies": {
     "bulma": "^0.8.2",
