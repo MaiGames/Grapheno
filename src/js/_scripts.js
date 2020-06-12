@@ -1,6 +1,6 @@
-const remote = require('electron').remote
+const {ipcRenderer, remote} = require('electron')
 const path = require('path')
-const con = require('electron').remote.getGlobal('console')
+const con = remote.getGlobal('console')
 
 function changeHTML(p) {
     remote.getCurrentWindow().loadURL(path.join(__dirname, p))

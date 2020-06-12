@@ -1,28 +1,59 @@
-// Modules to control application life and create native browser window
 const {ipcMain, app, BrowserWindow} = require('electron')
-const path = require('path')
 const win = require('./window')
-const globalVars = require('../util/across_global_variables')
+const dialogWin = require('./dialog_window')
+
+var path = 0
 
 require('v8-compile-cache') //optimization
 
-const mainWindow = new win.Window()
+const editorWindow = new win.Window()
+
+const startFrame = new dialogWin.DialogWindow()
 
 function init() {
 
+  const globalVars = require('../util/across_global_variables')
+  path = require('path')
+
+  loadLang()
+
   globalVars.registerMainProcessEvts(ipcMain)
 
-  mainWindow.createWindow("Grapheno", 800, 600, path.join(__dirname, '../preload.js'), true, false, 0.7)
+  editorWindow.createWindow("Grapheno", 800, 600, path.join(__dirname, '../preload.js'), true, false, true, 0.7)
 
-  mainWindow.setBGColor("#1E1E1E")
+  startFrame.createDialog(800, 600, "Grapheno - Start Hub", editorWindow, true, false, false, 1)
 
-  mainWindow.load(path.join(__dirname, '../../html/main_hub.html'))
+  editorWindow.setBGColor("#1E1E1E")
 
-  mainWindow.window.setIcon(path.join(__dirname, "../../../assets/ico-256.png"))
+  editorWindow.load(path.join(__dirname, '../../html/editor.html'))
 
-  mainWindow.window.toggleDevTools()
+  editorWindow.window.setIcon(path.join(__dirname, "../../../assets/ico-256.png"))
 
 }
+
+function loadLang() {
+
+  const lang = require('../util/lang')
+
+  lang.loadLang(path.join(__dirname, "../../../assets/lang/en_US.json"), "en_US")
+
+  lang.setLang("en_US")
+
+  global.lang = lang;
+
+  global.console = console
+
+}
+
+ipcMain.on("open-starthub", () => {
+
+  startFrame.setBGColor("#1E1E1E")
+
+  startFrame.load(path.join(__dirname, '../../html/start_hub.html'))
+
+  startFrame.window.toggleDevTools()
+
+})
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.

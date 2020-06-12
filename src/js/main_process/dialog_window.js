@@ -1,24 +1,21 @@
 const {app, BrowserWindow} = require('electron')
 
-class Window {
+class DialogWindow {
 
     window = null
 
-    preload = null
-
     constructor() { }
     
-    createWindow(title, width, height, preload, showUntilLoaded = true, frame = true, maximize=false, minResMultiplier=0.5) {
-        
-        this.preload = preload
-
+    createDialog(width, height, title, parent, showUntilLoaded = true, frame = true, resizable=false, minResMultiplier=0.5) {
         this.window = new BrowserWindow({
             width: width,
             height: height,
             show: !showUntilLoaded,
+            modal: true,
+            parent: parent.window,
             frame: frame,
             webPreferences: {
-                preload: preload,
+                preload: parent.preload,
                 nodeIntegration: true,
                 transparent: showUntilLoaded,
                 enableRemoteModule: true
@@ -31,14 +28,16 @@ class Window {
 
         this.window.setMinimumSize(width * minResMultiplier, height * minResMultiplier)
 
+        this.window.setResizable(resizable)
+
         if(showUntilLoaded) {
+            
             const win = this.window
+
             this.window.webContents.on('did-finish-load', function() {
                 win.show();
-                if(maximize) win.maximize()
             });
-        }else if(maximize) {
-            win.maximize()
+
         }
 
     }
@@ -53,4 +52,4 @@ class Window {
 
 }
 
-module.exports.Window = Window
+module.exports.DialogWindow = DialogWindow

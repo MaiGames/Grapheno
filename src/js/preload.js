@@ -3,6 +3,8 @@ const fs = require('fs')
 const path = require('path')
 const globalVars = require('./util/across_global_variables')
 
+const lang = globalVars.getGlobal("lang")
+
 globalVars.setGlobalIfUndefined("_bodies", fs.readFileSync(path.join(__dirname, '../html/_bodies.html'), 'utf8'))
 globalVars.setGlobalIfUndefined("_heads", fs.readFileSync(path.join(__dirname, '../html/_heads.html'), 'utf8'))
 
@@ -11,20 +13,18 @@ globalVars.setGlobalIfUndefined("_heads", fs.readFileSync(path.join(__dirname, '
 */
 function init() { 
 
-  while(document.head === null);
   document.head.innerHTML = globalVars.getGlobal("_heads") + document.head.innerHTML
-  while(document.body === null);
   document.body.innerHTML = globalVars.getGlobal("_bodies") + document.body.innerHTML
 
+  document.body.innerHTML = lang.currLangLocalize(document.body.innerHTML) //localize the document body with the current lang
+ 
   globalVars.setGlobalIfUndefined("firstInit", true)
 
   if(!globalVars.getGlobal('firstInit')) { //stuff to do when this is not the first init (first page loaded)
-    
-    fadeInPage()
-
+  
   } else { //stuff to do when this is the first init
 
-    document.querySelector('#fader').style.opacity = "0.0"
+    remote.getCurrentWindow().emit("first-init")
 
     globalVars.setGlobal("firstInit", false) //for next inits checking
 
@@ -70,44 +70,7 @@ function init() {
     window.close();
   });
 
-  //fade out code begin
-
-  document.addEventListener('DOMContentLoaded', function() {
-    if (!window.AnimationEvent) { return; }
-    var anchors = document.getElementsByTagName('a');
-    
-    for (var idx=0; idx<anchors.length; idx+=1) {
-      if (anchors[idx].hostname !== window.location.hostname ||
-        anchors[idx].pathname === window.location.pathname) {
-        continue;
-      }
-
-      anchors[idx].addEventListener('click', function(event) {
-        var fader = document.querySelector('#fader'),
-            anchor = event.currentTarget;
-        
-        var listener = function() {
-            window.location = anchor.href;
-            fader.removeEventListener('animationend', listener);
-        };
-        fader.addEventListener('animationend', listener);
-        
-        event.preventDefault();
-        fader.classList.add('fade-in');
-      });
-    }
-
-  });
-
-  window.addEventListener('pageshow', function (event) {
-    if (!event.persisted) {
-      return;
-    }
-    var fader = document.querySelector('#fader');
-    fader.classList.remove('fade-in');
-  });
-
-  //fade out code end
+  remote.getCurrentWindow().emit("finish-init-preload")
 
 }
   
@@ -115,11 +78,3 @@ document.addEventListener('DOMContentLoaded', function() {
   //if (document.readyState == "complete") 
   init();
 })
-
-//fading
-function fadeInPage() {
-  if (!window.AnimationEvent) { return; }
-  
-  var fader = document.querySelector('#fader');
-  fader.classList.add('fade-out');
-}
