@@ -1,3 +1,13 @@
+:root {
+
+    --bars-bg-1: #333333;
+    --bars-text-1: #9ea5a5;
+
+    --bars-border-2: #414141;
+    --bars-bg-2: #252526;
+
+}
+
 #right-sidebar {
 
     height: 100%;
@@ -7,7 +17,7 @@
     top: 0;
     right: 0;
 
-    background-color: #333333;
+    background-color: var(--bars-bg-1);
     overflow-x: hidden;
     padding-top: 20px;
 
@@ -31,8 +41,7 @@
 
     margin: auto;
 
-    color: rgb(158, 165, 165);
-
+    color: var(--bars-text-1);
     font-family: sans-serif;
 
 }
@@ -49,10 +58,10 @@
     bottom: 0;
     left: 0;
 
-    border-top: 1.5px solid #414141;
+    border-top: 1.5px solid var(--bars-border-2);
     /*border-right: 1.5px solid #414141; */
 
-    background-color: #252526;
+    background-color: var(--bars-bg-2);
     overflow-x: hidden;
     padding-top: 20px;
 

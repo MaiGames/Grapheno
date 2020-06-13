@@ -2,6 +2,10 @@ const {ipcMain, app, BrowserWindow} = require('electron')
 const win = require('./window')
 const dialogWin = require('./dialog_window')
 
+const lang = require('../util/lang')
+
+const theme = require('../util/theme')
+
 var path = 0
 
 require('v8-compile-cache') //optimization
@@ -12,46 +16,62 @@ const startFrame = new dialogWin.DialogWindow()
 
 function init() {
 
+  global.console = console
+
   const globalVars = require('../util/across_global_variables')
   path = require('path')
 
   loadLang()
+  loadTheme()
 
   globalVars.registerMainProcessEvts(ipcMain)
 
-  editorWindow.createWindow("Grapheno", 800, 600, path.join(__dirname, '../preload.js'), true, false, true, 0.7)
+  editorWindow.createWindow("", 800, 600, path.join(__dirname, '../preload.js'), true, false, true, true, 0.7)
 
-  startFrame.createDialog(800, 600, "Grapheno - Start Hub", editorWindow, true, false, false, 1)
+  startFrame.createDialog("", 800, 600, editorWindow, false, false, false, true, 1)
 
-  editorWindow.setBGColor("#1E1E1E")
+  editorWindow.setBGColor(theme.getCurrThemeColor("editor_bgcolor"))
+
+  //editorWindow.window.toggleDevTools()
 
   editorWindow.load(path.join(__dirname, '../../html/editor.html'))
 
   editorWindow.window.setIcon(path.join(__dirname, "../../../assets/ico-256.png"))
 
+  global.editorWindow = editorWindow
+  global.startFrame = startFrame
+
 }
 
 function loadLang() {
 
-  const lang = require('../util/lang')
-
   lang.loadLang(path.join(__dirname, "../../../assets/lang/en_US.json"), "en_US")
+  lang.loadLang(path.join(__dirname, "../../../assets/lang/fr_FR.json"), "fr_FR")
 
-  lang.setLang("en_US")
+  lang.setLang("fr_FR")
 
-  global.lang = lang;
-
-  global.console = console
+  global.lang = lang
 
 }
 
+function loadTheme() {
+
+  theme.loadTheme(path.join(__dirname, "../../../assets/theme/dark_darcula.json"), "dark_darcula")
+
+  theme.setTheme("dark_darcula")
+
+  global.theme = theme;
+
+}
+
+
 ipcMain.on("open-starthub", () => {
 
-  startFrame.setBGColor("#1E1E1E")
+  startFrame.setBGColor(theme.getCurrThemeColor("editor_bgcolor"))
+
+  //startFrame.window.toggleDevTools()
 
   startFrame.load(path.join(__dirname, '../../html/start_hub.html'))
-
-  startFrame.window.toggleDevTools()
 
 })
 
@@ -68,11 +88,4 @@ app.whenReady().then(() => {
     if (BrowserWindow.getAllWindows().length === 0) init()
   })
 
-})
-
-// Quit when all windows are closed.
-app.on('window-all-closed', function () {
-  // On macOS it is common for applications and their menu bar
-  // to stay active until the user quits explicitly with Cmd + Q
-  if (process.platform !== 'darwin') app.quit()
 })

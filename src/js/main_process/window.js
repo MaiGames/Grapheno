@@ -8,19 +8,19 @@ class Window {
 
     constructor() { }
     
-    createWindow(title, width, height, preload, showUntilLoaded = true, frame = true, maximize=false, minResMultiplier=0.5) {
+    createWindow(title, width, height, preload, showUntilLoaded = true, frame = true, hidden=true, maximize=false, minResMultiplier=0.5) {
         
         this.preload = preload
 
         this.window = new BrowserWindow({
             width: width,
             height: height,
-            show: !showUntilLoaded,
+            show: !hidden,
             frame: frame,
             webPreferences: {
                 preload: preload,
                 nodeIntegration: true,
-                transparent: showUntilLoaded,
+                transparent: hidden,
                 enableRemoteModule: true
             }
         })
@@ -37,8 +37,6 @@ class Window {
                 win.show();
                 if(maximize) win.maximize()
             });
-        }else if(maximize) {
-            win.maximize()
         }
 
     }

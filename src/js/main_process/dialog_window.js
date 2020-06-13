@@ -6,18 +6,20 @@ class DialogWindow {
 
     constructor() { }
     
-    createDialog(width, height, title, parent, showUntilLoaded = true, frame = true, resizable=false, minResMultiplier=0.5) {
+    createDialog(title, width, height, parent, showUntilLoaded = true, frame = true, resizable=false, hidden=true, minResMultiplier=0.5) {
         this.window = new BrowserWindow({
             width: width,
             height: height,
-            show: !showUntilLoaded,
+            show: !hidden,
             modal: true,
             parent: parent.window,
             frame: frame,
+            fullscreen: false,
+            maximizable: resizable,
             webPreferences: {
                 preload: parent.preload,
                 nodeIntegration: true,
-                transparent: showUntilLoaded,
+                transparent: true,
                 enableRemoteModule: true
             }
         })
@@ -29,6 +31,15 @@ class DialogWindow {
         this.window.setMinimumSize(width * minResMultiplier, height * minResMultiplier)
 
         this.window.setResizable(resizable)
+
+        const win = this.window
+        const fullScreenInter = setInterval(function() {
+            if(!win.isDestroyed()) { 
+                win.setFullScreen(false)
+            } else {
+                clearInterval(fullScreenInter)
+            }
+        }, 1)
 
         if(showUntilLoaded) {
             

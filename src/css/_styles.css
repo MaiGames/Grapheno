@@ -1,3 +1,12 @@
+:root {
+
+    --titlebar-bg: #000000;
+    --titlebar-btt-hover: #000000;
+
+    --title-text: #000000;
+
+}
+
 /* Setup */
 html {
 
@@ -39,7 +48,7 @@ body {
 
     height: 34px;
 
-    background-color: #424242;
+    background-color: var(--titlebar-bg);
    
     padding: 0px;
    
@@ -63,11 +72,11 @@ body {
 
     text-align: center;
    
-    width: 93%;
+    width: 100%;
 
     margin: 0 auto;
 
-    color: #bdbdbd;
+    color: var(--title-text);
 
 }
    
@@ -103,7 +112,7 @@ body {
 
 #title-bar-btns button:hover {
    
-    background-color: rgb(92, 92, 94);
+    background-color: var(--titlebar-btt-hover);
    
 }
 
@@ -112,40 +121,4 @@ body {
    
     padding: 0px; 
    
-}
-
-/* Footer stuff */
-
-#footer-bar {
-   
-    position: fixed;
-
-    z-index: 10000;
-
-    left: 0;
-
-    bottom: 0;
-
-    width: 100%;
-
-    background-color: #495ebe;
-   
-    font-family: sans-serif;
-   
-}
-
-/* Dialogs div */
-
-#dialog {
-
-    position: fixed;
-
-    width: 50%;
-    height: 50%;
-
-    left: 25%;
-    bottom: 25%;
-
-    background-color: red;
-
 }

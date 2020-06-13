@@ -4,6 +4,8 @@ var loadedLangs = []
 
 var currLangIndex = 0;
 
+var currLangName = "";
+
 function loadLang(json_path, lang_name) {
     
     loadedLangs.push({
@@ -19,8 +21,8 @@ function setLang(lang_name) {
 
     for(lang of loadedLangs){
 
-        if(lang.lang_name == lang_name) {
-            currLang = count
+        if(lang.lang_name === lang_name) {
+            currLangIndex = count
             return
         }
 
@@ -30,12 +32,18 @@ function setLang(lang_name) {
 
     throw new Error("Lang not found (maybe not loaded?)")
 
-}
+   //currLangName = lang_name
 
+}
+ 
 function getCurrLang() {
 
     return loadedLangs[currLangIndex].lang
 
+}
+
+function getCurrLangStr(field) {
+    return getCurrLang()[field]
 }
 
 function currLangLocalize(toLocalizeStr) {
@@ -52,3 +60,4 @@ module.exports.loadLang = loadLang
 module.exports.setLang = setLang
 module.exports.getCurrLang = getCurrLang
 module.exports.currLangLocalize = currLangLocalize
+module.exports.getCurrLangStr = getCurrLangStr

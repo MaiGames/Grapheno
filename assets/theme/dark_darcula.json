@@ -1,0 +1,11 @@
+{
+
+    "editor_bgcolor": "#1E1E1E",
+    "dialogs_bgcolor": "#1E1E1E",
+
+    "--titlebar-bg": "#424242",
+    "--titlebar-btt-hover": "#5C5C5E",
+
+    "--title-text": "#bdbdbd"
+
+}
