@@ -39,7 +39,7 @@ remote.getCurrentWindow().on("finish-init-preload", (event) => {
 
     resizeLineElem = document.querySelector("#resize-bar")
 
-    resizeLineElem.style.bottom = "256px"
+    resizeLineElem.style.bottom = "254.5px"
 
     resizeLineElem.addEventListener("mousedown", function() {
 
@@ -57,7 +57,7 @@ remote.getCurrentWindow().on("finish-init-preload", (event) => {
         if(height > 377) {
 
             toResizeElem.style.height = 377 + "px"
-            resizeLineElem.style.bottom = (377 + 16) + "px" 
+            resizeLineElem.style.bottom = (377 + 14.5) + "px" 
             
             stopResize()
             return   
@@ -65,18 +65,17 @@ remote.getCurrentWindow().on("finish-init-preload", (event) => {
         } else if(height < 160) {
 
             toResizeElem.style.height = 160 + "px"
-            resizeLineElem.style.bottom = (160 + 16) + "px"    
+            resizeLineElem.style.bottom = (160 + 14.5) + "px"    
             
             stopResize()
             return
-
         }
 
 
         height -= currY
 
         toResizeElem.style.height = height + "px"
-        resizeLineElem.style.bottom = (height + 16) + "px"
+        resizeLineElem.style.bottom = (height + 14.5) + "px"
 
         beforeY = currY;
 

@@ -5,7 +5,14 @@
 
     "--titlebar-bg": "#424242",
     "--titlebar-btt-hover": "#5C5C5E",
+    "--title-text": "#bdbdbd",
+    
+    "--bars-bg-1": "#333333",
+    "--bars-text-1": "#9ea5a5",
 
-    "--title-text": "#bdbdbd"
+    "--bars-border-2": "#414141",
+    "--bars-bg-2": "#252526",
+    "--bars-text-2": "#a9b1b1",
+    "--bars-invert-2": "0.25"
 
 }

@@ -69,7 +69,7 @@ ipcMain.on("open-starthub", () => {
 
   startFrame.setBGColor(theme.getCurrThemeColor("editor_bgcolor"))
 
-  //startFrame.window.toggleDevTools()
+  startFrame.window.toggleDevTools()
 
   startFrame.load(path.join(__dirname, '../../html/start_hub.html'))
 
