@@ -11,8 +11,12 @@
     "--bars-text-1": "#9ea5a5",
 
     "--bars-border-2": "#414141",
+    "--bars-border-hover-2": "#585858",
     "--bars-bg-2": "#252526",
+    "--bars-bg-hover-2": "#2f2f2f",
     "--bars-text-2": "#a9b1b1",
-    "--bars-invert-2": "0.25"
+    "--bars-text-hover-2": "#b5bebe",
+    "--bars-invert-2": "0.25",
+    "--bars-invert-hover-2": "0.10"
 
 }

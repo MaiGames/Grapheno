@@ -4,9 +4,14 @@
     --bars-text-1: #000000;
 
     --bars-border-2: #000000;
+    --bars-border-hover-2: #000000;
     --bars-bg-2: #000000;
+    --bars-bg-hover-2: #000000;
     --bars-text-2: #000000;
+    --bars-text-hover-2: #000000;
+
     --bars-invert-2: 0;
+    --bars-invert-hover-2: 0;
 
 }
 
@@ -97,14 +102,16 @@
     width: 20%;
     height: 25%;
 
-    background-color: var(--bars-bg-2)
+    background-color: var(--bars-bg-2);
+
+    cursor: pointer;
 
 }
 
-#createnew_vector svg {
+#createnew_vector img {
 
     position: absolute;
-   
+    
     top: 2%;
 
     left: 10%;
@@ -125,7 +132,7 @@
 
     text-align: center;
 
-    left: 14.5%;
+    left: 17.75%;
 
     font-size: 12px;
 
@@ -137,11 +144,84 @@
 
 #createnew_vector:hover {
 
-    border: 1.5px solid #484848;
-    background-color: #2f2f2f;
+    border: 1.5px solid var(--bars-border-hover-2);
+    background-color: var(--bars-bg-hover-2);
 
 }
 
-#createnew_vector svg:hover {
-    filter: invert(0.18);
+#createnew_vector:hover img {
+    filter: invert(var(--bars-invert-hover-2));
+}
+
+#createnew_vector:hover div {
+    color: var(--bars-text-hover-2);
+}
+
+
+#createnew_pixel {
+
+    position: absolute;
+
+    top: 16%;
+
+    border: 1.5px solid var(--bars-border-2);
+
+    left: 8%;
+
+    width: 20%;
+    height: 25%;
+
+    background-color: var(--bars-bg-2);
+
+    cursor: pointer;
+
+}
+
+#createnew_pixel img {
+
+    position: absolute;
+    
+    top: 2%;
+
+    left: 10%;
+    
+    width: 80%;
+    height: 80%;
+
+    filter: invert(var(--bars-invert-2));
+
+}
+
+
+#createnew_pixel div {
+
+    position: absolute;
+
+    bottom: 10%;
+
+    text-align: center;
+
+    left: 17.75%;
+
+    font-size: 12px;
+
+    font-family: sans-serif;
+
+    color: var(--bars-text-2);
+
+}
+
+#createnew_pixel:hover {
+
+    border: 1.5px solid var(--bars-border-hover-2);
+    background-color: var(--bars-bg-hover-2);
+
+}
+
+#createnew_pixel:hover img {
+    filter: invert(var(--bars-invert-hover-2));
+}
+
+#createnew_pixel:hover div {
+    color: var(--bars-text-hover-2);
 }

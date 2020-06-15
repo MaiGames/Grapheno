@@ -8,31 +8,20 @@ var mouseIsClicking = false
 
 insideResizeDiv = false
 
+/*
+* Queue to hide the resize and maximize window
+* buttons as soon as the preload starts, since we
+* don't want the window to be neither maximized nor minimized, 
+*/
+remote.getCurrentWindow().emit("queue-hide-minimize-maximize")
+
+/*
+ * When the preload init is finished (localization, global body injected, etc)
+ * we'll execute most of the code needed for this page because we need all the 
+ * elements to be properly loaded.
+ */
 remote.getCurrentWindow().on("finish-init-preload", (event) => {
 
-    document.querySelector("#min-btn").disabled = true
-    document.querySelector("#max-btn").disabled = true
-
-    document.querySelector("#min-btn").style.opacity = "0"
-    document.querySelector("#max-btn").style.opacity = "0"
-
-    document.querySelector("#resize-bar").addEventListener("mouseenter", function() {
-
-        insideResizeDiv = true
-        firstSet = true   
-
-    })
-    
-    document.querySelector("#resize-bar").addEventListener("mouseout", function() {
-        
-        insideResizeDiv = false
-        beforeY = 0
-        
-        firstSet = false
-    
-    })
-
-    
     const toResizeElem = document.querySelector("#left-bottom-bar")
 
     toResizeElem.style.height = "240px"
@@ -86,20 +75,21 @@ remote.getCurrentWindow().on("finish-init-preload", (event) => {
         window.removeEventListener("mouseup", stopResize)
     }
 
-    document.body.onload = function() {
+    document.body.onload = function() { //show window until everything's loaded to avoid weird flashes
         remote.getCurrentWindow().show()
     }
 
     document.body.onmousemove = function(event){
         y = event.pageY
-        if(firstSet) {
-            firstSet = false
-            startY = y
-        }
     }
         
 })
 
+/*
+* Instead of destroying the window when the user clicks X,
+* we'll just hide it to be able to open it again without 
+* having to load everything again, to save time.
+*/
 remote.getCurrentWindow().on("close-btt", (evt) => {
 
     remote.getCurrentWindow().hide()

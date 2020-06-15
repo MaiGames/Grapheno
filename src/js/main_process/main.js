@@ -48,7 +48,7 @@ function loadLang() {
   lang.loadLang(path.join(__dirname, "../../../assets/lang/en_US.json"), "en_US")
   lang.loadLang(path.join(__dirname, "../../../assets/lang/fr_FR.json"), "fr_FR")
 
-  lang.setLang("fr_FR")
+  lang.setLang("en_US")
 
   global.lang = lang
 
