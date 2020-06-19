@@ -155,6 +155,9 @@ function init() {
     document.querySelector("#max-btn").style.opacity = "0"
 
   })
+  
+  document.addEventListener('dragover', event => event.preventDefault());
+  document.addEventListener('drop', event => event.preventDefault());
 
   window.emit("finish-init-preload")
 

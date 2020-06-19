@@ -5,13 +5,11 @@
 
     <script src="../js/_scripts.js"></script>
     <script src="../js/start_hub.js"></script>
-    <script src="../js/lib/svg-inject.min.js"></script>
     <link rel="stylesheet" href="../css/_styles.css"/>
     <link rel="stylesheet" href="../css/start_hub.css"/>
     <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; style-src-elem 'self'">
-    <meta http-equiv="X-Content-Security-Policy" content="default-src 'self'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; style-src-elem 'self'">
-
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'">
+    <meta http-equiv="X-Content-Security-Policy" content="default-src 'self'; script-src 'self'">
   </head>
 
   <body>
@@ -20,14 +18,14 @@
     
     <div id="createnew_vector">
 
-      <img src="../../assets/media/icon/create_new_vector.svg">
+      <img draggable="false" src="../../assets/media/icon/create_new_vector.svg">
       <div>$m_new_vec_canvas</div>
 
     </div>
 
     <div id="createnew_pixel">
 
-      <img src="../../assets/media/icon/create_new_pixel.svg">
+      <img draggable="false" src="../../assets/media/icon/create_new_pixel.svg">
       <div>$m_new_pix_canvas</div>
 
     </div>

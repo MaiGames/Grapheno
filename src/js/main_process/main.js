@@ -28,11 +28,11 @@ function init() {
 
   editorWindow.createWindow("", 800, 600, path.join(__dirname, '../preload.js'), true, false, true, true, 0.7)
 
-  startFrame.createDialog("", 800, 600, editorWindow, false, false, false, true, 1)
+  startFrame.createDialog("", 800, 600, editorWindow, false, false, true, true, 1)
 
   editorWindow.setBGColor(theme.getCurrThemeColor("editor_bgcolor"))
 
-  //editorWindow.window.toggleDevTools()
+  editorWindow.window.toggleDevTools()
 
   editorWindow.load(path.join(__dirname, '../../html/editor.html'))
 
@@ -48,7 +48,7 @@ function loadLang() {
   lang.loadLang(path.join(__dirname, "../../../assets/lang/en_US.json"), "en_US")
   lang.loadLang(path.join(__dirname, "../../../assets/lang/fr_FR.json"), "fr_FR")
 
-  lang.setLang("en_US")
+  lang.setLang("fr_FR")
 
   global.lang = lang
 
@@ -69,7 +69,7 @@ ipcMain.on("open-starthub", () => {
 
   startFrame.setBGColor(theme.getCurrThemeColor("editor_bgcolor"))
 
-  startFrame.window.toggleDevTools()
+  //startFrame.window.toggleDevTools()
 
   startFrame.load(path.join(__dirname, '../../html/start_hub.html'))
 

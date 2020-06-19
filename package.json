@@ -93,8 +93,10 @@
     ]
   },
   "dependencies": {
+    "@pixi/unsafe-eval": "^5.3.0",
     "bulma": "^0.8.2",
     "electron-is-dev": "^1.0.1",
+    "pixi.js": "^5.3.0",
     "v8-compile-cache": "^2.1.1",
     "webpack": "^4.43.0",
     "zebras": "0.0.18"
