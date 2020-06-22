@@ -7,20 +7,20 @@ var firstSet = true
 var mouseIsClicking = false
 
 insideResizeDiv = false
-
-/*
-* Queue to hide the resize and maximize window
-* buttons as soon as the preload starts, since we
-* don't want the window to be neither maximized nor minimized, 
-*/
-remote.getCurrentWindow().emit("queue-hide-minimize-maximize")
-
 /*
  * When the preload init is finished (localization, global body injected, etc)
  * we'll execute most of the code needed for this page because we need all the 
  * elements to be properly loaded.
  */
 remote.getCurrentWindow().on("finish-init-preload", (event) => {
+
+    /*
+    * Queue to hide the resize and maximize window
+    * buttons as soon as the preload starts, since we
+    * don't want the window to be neither maximized nor minimized, 
+    */
+    remote.getCurrentWindow().emit("hide-minimize-maximize")
+
 
     const toResizeElem = document.querySelector("#left-bottom-bar")
 

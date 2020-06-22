@@ -46,7 +46,7 @@ class DialogWindow {
             const win = this.window
 
             this.window.webContents.on('did-finish-load', function() {
-                win.show();
+                if(!parent.isDestroyed()) win.show();
             });
 
         }

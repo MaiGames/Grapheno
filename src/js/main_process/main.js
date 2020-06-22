@@ -32,7 +32,7 @@ function init() {
 
   editorWindow.setBGColor(theme.getCurrThemeColor("editor_bgcolor"))
 
-  editorWindow.window.toggleDevTools()
+  //editorWindow.window.toggleDevTools()
 
   editorWindow.load(path.join(__dirname, '../../html/editor.html'))
 

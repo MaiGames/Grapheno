@@ -23,7 +23,7 @@ const theme = globalVars.getGlobal("theme") //get theme module
  * to worry about it taking too much time to load everytime a new page loads.
  */
 globalVars.setGlobalIfUndefined("_bodies", fs.readFileSync(path.join(__dirname, '../html/_bodies.html'), 'utf8'))
-globalVars.setGlobalIfUndefined("_heads", fs.readFileSync(path.join(__dirname, '../html/_heads.html'), 'utf8'))
+//globalVars.setGlobalIfUndefined("_heads", fs.readFileSync(path.join(__dirname, '../html/_heads.html'), 'utf8'))
 
 const window = remote.getCurrentWindow()
 
@@ -87,13 +87,15 @@ function init() {
   * avoid weird flashes 
   */
   if(hideMinimizeMaximize) {
-      //set btts disabled state to true, since they are still clickable after opacity = 9
-      document.querySelector("#min-btn").disabled = true 
-      document.querySelector("#max-btn").disabled = true
-  
-      //set btts opacity to 0
-      document.querySelector("#min-btn").style.opacity = "0"
-      document.querySelector("#max-btn").style.opacity = "0"
+
+    //set btts disabled state to true, since they are still clickable after opacity = 9
+    document.querySelector("#min-btn").disabled = true 
+    document.querySelector("#max-btn").disabled = true
+
+    //set btts opacity to 0
+    document.querySelector("#min-btn").style.opacity = "0"
+    document.querySelector("#max-btn").style.opacity = "0"
+
   }
 
   setInterval(function(){ //declare interval for changing maximize button & title texts
@@ -113,7 +115,6 @@ function init() {
     }
 
   }, 50)
-
 
   document.querySelector("#min-btn").addEventListener("click", function (e) { //minimize title bar btt
 
