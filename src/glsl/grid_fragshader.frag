@@ -11,12 +11,12 @@ uniform vec4 line_color;
 void main() {
 
   float lX = gl_FragCoord.x / vpw;
-  float lY = gl_FragCoord.y / vph;
+  float lY = gl_FragCoord.y / vph ;
 
   float scaleFactor = 10000.0;
 
   float offX = (scaleFactor * offset[0]) + gl_FragCoord.x;
-  float offY = (scaleFactor * offset[1]) + (1.0 - gl_FragCoord.y);
+  float offY = (scaleFactor * offset[1]) + gl_FragCoord.y;
 
   if (int(mod(offX, pitch[0])) == 0 ||
       int(mod(offY, pitch[1])) == 0) {

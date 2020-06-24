@@ -31,21 +31,18 @@ remote.getCurrentWindow().on("finish-init-preload", (event) => {
     // Listen for window resize events
     window.onresize = resize
 
-    var width = window.innerWidth;
-    var height = window.innerHeight;
+    var width = 25;
+    var height = 25;
 
-    //const pos = [pix_app.renderer.plugins.interaction.mouse.global.x, pix_app.renderer.plugins.interaction.mouse.global.y]
+    const pos = [pix_app.renderer.plugins.interaction.mouse.global.x, pix_app.renderer.plugins.interaction.mouse.global.y]
 
     var grid = new gh_grid.Grid({
-        vpw: 300,
-        vph: 300,
-        offset: [-1, 1 ],
-        pitch: [25, 25],
-        resolution: [ 300, 300 ],
-        line_color: [1, 1, 1, 0.5]
+        sqs_width: 6,
+        sqs_height: 6,
+        rect_width: 600,
+        rect_height: 600,
+        line_color: [ 1, 1, 1, 0.3 ]
     })
-
-    //pix_app.viewport.filterArea = pix_app.renderer.screen
 
     pix_app.stage.addChild(grid.getRect())
 
@@ -75,6 +72,6 @@ function request_quit() {
 function resize() {
 
     // Resize the renderer
-    pix_app.renderer.resize(window.innerWidth-0, window.innerHeight-0);
+    pix_app.renderer.resize(window.innerWidth, 720);
 
 }
