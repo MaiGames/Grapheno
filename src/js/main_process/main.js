@@ -1,4 +1,4 @@
-const {ipcMain, app, BrowserWindow} = require('electron')
+const { ipcMain, app, BrowserWindow } = require('electron')
 const win = require('./window')
 const dialogWin = require('./dialog_window')
 
@@ -18,7 +18,7 @@ function init() {
 
   global.console = console
 
-  const globalVars = require('../util/across_global_variables')
+  const globalVars = require('../util/global_variables')
   path = require('path')
 
   loadLang()
@@ -26,7 +26,7 @@ function init() {
 
   globalVars.registerMainProcessEvts(ipcMain)
 
-  editorWindow.createWindow("", 800, 600, path.join(__dirname, '../preload.js'), true, false, true, true, 0.7)
+  editorWindow.createWindow("", 960, 720, path.join(__dirname, '../preload.js'), true, false, true, true, 0.7)
 
   startFrame.createDialog("", 800, 600, editorWindow, false, false, true, true, 1)
 

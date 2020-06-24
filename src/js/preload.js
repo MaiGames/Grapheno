@@ -10,7 +10,7 @@
 const {ipcRenderer, remote} = require('electron');
 const fs = require('fs')
 const path = require('path')
-const globalVars = require('./util/across_global_variables')
+const globalVars = require('./util/global_variables')
 
 const lang = globalVars.getGlobal("lang") //get lang module
 const theme = globalVars.getGlobal("theme") //get theme module
@@ -22,7 +22,7 @@ const theme = globalVars.getGlobal("theme") //get theme module
  * They'll only be set once if they aren't defined yet so we don't have
  * to worry about it taking too much time to load everytime a new page loads.
  */
-globalVars.setGlobalIfUndefined("_bodies", fs.readFileSync(path.join(__dirname, '../html/_bodies.html'), 'utf8'))
+globalVars.setGlobalIfUndefined("_bodies", function() { return fs.readFileSync(path.join(__dirname, '../html/_bodies.html'), 'utf8') })
 //globalVars.setGlobalIfUndefined("_heads", fs.readFileSync(path.join(__dirname, '../html/_heads.html'), 'utf8'))
 
 const window = remote.getCurrentWindow()
@@ -61,7 +61,7 @@ function init() {
    * firstInit part: We'll determine if this is the first initialization in the whole
    * program, and then emit an event depending on this. 
    */
-  globalVars.setGlobalIfUndefined("firstInit", true)
+  globalVars.setGlobalIfUndefined("firstInit", function() { return true })
 
   if(!globalVars.getGlobal('firstInit')) { //stuff to do when this is not the first init (first page loaded)
   

@@ -1,6 +1,11 @@
 const PIXI = require('pixi.js')
 const install = require('@pixi/unsafe-eval').install
 
+const gh_grid = require('../js/graphics/grid')
+
+const array_util = require('../js/util/array_util')
+const global_vars = require('../js/util/global_variables');
+
 var pix_app;
 
 const rects = [];
@@ -22,34 +27,28 @@ remote.getCurrentWindow().on("finish-init-preload", (event) => {
     });
     
     document.body.appendChild(pix_app.view);
-      
-    // Lets create a red square, this isn't 
-    // necessary only to show something that can be position
-    // to the bottom-right corner
-//    rects.push(new PIXI.Graphics()
-//                .beginFill(0xff0000)
-//                .drawRect(-100, -100, 100, 100))
 
-    // Add it to the stage
-//    pix_app.stage.addChild(rects[0]);
-    
     // Listen for window resize events
     window.onresize = resize
 
-    pix_app.renderer.plugins.interaction.on("mousedown", function(e){
+    var width = window.innerWidth;
+    var height = window.innerHeight;
 
-        const rect = new PIXI.Graphics()
-        .beginFill(0xff0000)
-        .drawRect(-100, -100, 100, 100);
+    //const pos = [pix_app.renderer.plugins.interaction.mouse.global.x, pix_app.renderer.plugins.interaction.mouse.global.y]
 
-        rect.position.set(pix_app.renderer.plugins.interaction.mouse.global.x, pix_app.renderer.plugins.interaction.mouse.global.y);
-
-        rects.push(rect)
-
-        pix_app.stage.addChild(rect)
-
+    var grid = new gh_grid.Grid({
+        vpw: 300,
+        vph: 300,
+        offset: [-1, 1 ],
+        pitch: [25, 25],
+        resolution: [ 300, 300 ],
+        line_color: [1, 1, 1, 0.5]
     })
-    
+
+    //pix_app.viewport.filterArea = pix_app.renderer.screen
+
+    pix_app.stage.addChild(grid.getRect())
+
     resize()
 
 })
@@ -77,14 +76,5 @@ function resize() {
 
     // Resize the renderer
     pix_app.renderer.resize(window.innerWidth-0, window.innerHeight-0);
-    
-    for(rect of rects) {
-
-        // You can use the 'screen' property as the renderer visible
-        // area, this is more useful than view.width/height because
-        // it handles resolution
-        //rect.position.set(renderer.interaction.mouse.global, pix_app.screen.height);
-
-    }
 
 }

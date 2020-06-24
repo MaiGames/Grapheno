@@ -29,7 +29,7 @@ class Window {
 
         this.window.setMenuBarVisibility(false)
 
-        this.window.setMinimumSize(width * minResMultiplier, height * minResMultiplier)
+        this.window.setMinimumSize(Math.round(width * minResMultiplier), Math.round(height * minResMultiplier))
 
         if(showUntilLoaded) {
             const win = this.window
