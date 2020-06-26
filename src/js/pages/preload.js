@@ -10,7 +10,7 @@
 const {ipcRenderer, remote} = require('electron');
 const fs = require('fs')
 const path = require('path')
-const globalVars = require('./util/global_variables')
+const globalVars = require('../util/global_variables')
 
 const lang = globalVars.getGlobal("lang") //get lang module
 const theme = globalVars.getGlobal("theme") //get theme module
@@ -22,7 +22,7 @@ const theme = globalVars.getGlobal("theme") //get theme module
  * They'll only be set once if they aren't defined yet so we don't have
  * to worry about it taking too much time to load everytime a new page loads.
  */
-globalVars.setGlobalIfUndefined("_bodies", function() { return fs.readFileSync(path.join(__dirname, '../html/_bodies.html'), 'utf8') })
+globalVars.setGlobalIfUndefined("_bodies", function() { return fs.readFileSync(path.join(__dirname, '../../html/_bodies.html'), 'utf8') })
 //globalVars.setGlobalIfUndefined("_heads", fs.readFileSync(path.join(__dirname, '../html/_heads.html'), 'utf8'))
 
 const window = remote.getCurrentWindow()
@@ -35,12 +35,9 @@ var hideMinimizeMaximize = false
 function init() { 
 
   /*
-  * Injection part: We'll simply concatenate the global _bodies and _head content
-  * into the current body and head respectively
+  * Injection part: We'll simply concatenate the
+  * global _bodies content into the current body
   */
-
-  // Comment reason: Insecure and useless right now
-  //document.head.innerHTML = globalVars.getGlobal("_heads") + document.head.innerHTML 
 
   document.body.innerHTML = globalVars.getGlobal("_bodies") + document.body.innerHTML
 
@@ -81,22 +78,6 @@ function init() {
    * Window top-bar part: Registering events, styling, etc. 
    * for the window html top-var 
    */
-
-  /* 
-  * To hide the minimize and maximize buttons as soon as possible and
-  * avoid weird flashes 
-  */
-  if(hideMinimizeMaximize) {
-
-    //set btts disabled state to true, since they are still clickable after opacity = 9
-    document.querySelector("#min-btn").disabled = true 
-    document.querySelector("#max-btn").disabled = true
-
-    //set btts opacity to 0
-    document.querySelector("#min-btn").style.opacity = "0"
-    document.querySelector("#max-btn").style.opacity = "0"
-
-  }
 
   setInterval(function(){ //declare interval for changing maximize button & title texts
 

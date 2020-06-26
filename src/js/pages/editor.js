@@ -8,7 +8,15 @@ const global_vars = require('../js/util/global_variables');
 
 var pix_app;
 
-const rects = [];
+const grid = new gh_grid.Grid({
+    vpw: window.innerWidth,
+    vph: window.innerHeight,
+    sqs_width: 6,
+    sqs_height: 6,
+    rect_width: 400,
+    rect_height: 400,
+    line_color: [ 1, 1, 1, 0.3 ]
+})
 
 remote.getCurrentWindow().on("first-init", (evt) => {
 
@@ -35,14 +43,6 @@ remote.getCurrentWindow().on("finish-init-preload", (event) => {
     var height = 25;
 
     const pos = [pix_app.renderer.plugins.interaction.mouse.global.x, pix_app.renderer.plugins.interaction.mouse.global.y]
-
-    var grid = new gh_grid.Grid({
-        sqs_width: 6,
-        sqs_height: 6,
-        rect_width: 600,
-        rect_height: 600,
-        line_color: [ 1, 1, 1, 0.3 ]
-    })
 
     pix_app.stage.addChild(grid.getRect())
 
@@ -72,6 +72,8 @@ function request_quit() {
 function resize() {
 
     // Resize the renderer
-    pix_app.renderer.resize(window.innerWidth, 720);
+    pix_app.renderer.resize(window.innerWidth, window.innerHeight);
+    
+    grid.vpResize(window.innerWidth, window.innerHeight)
 
 }

@@ -17,25 +17,32 @@ module.exports.GridShad = class GridShad {
 
         this.rect = PIXI.Sprite.from(PIXI.Texture.WHITE)
 
+        this.rect.filters = [ null ]
+
         this.setParameters(params)
 
     }
+
+    addFilter(filter) { this.rect.filters.push(filter) }
 
     getRect() { return this.rect }
 
     setParameters(params) {
 
+        if(params.vpw == null) params.vpw = 800;
+        if(params.vph == null) params.vph = 600;
         if(params.width == null) params.width = 500;
         if(params.height == null) params.height = 500;
-        if(params.offset == null) params.offset = [-0.0235, 0.9794 ]
         if(params.pitch == null) params.pitch = [50, 50]
-        if(params.resolution == null) params.resolution = [ 500, 500 ]
         if(params.line_color == null) params.line_color = [ 0, 0, 0, 0.5 ]
 
-        this.rect.width = params.vpw
-        this.rect.height = params.vph
+        this.rect.width = params.width
+        this.rect.height = params.height
 
-        this.rect.filters = [ new PIXI.Filter('', global_vars.getCachedGlobal("grid_fragshader"), params) ]
+        params.x = this.rect.x;
+        params.y = this.rect.y;
+
+        this.rect.filters[0] = new PIXI.Filter('', global_vars.getCachedGlobal("grid_fragshader"), params)
 
         this.params = params
 
@@ -43,9 +50,7 @@ module.exports.GridShad = class GridShad {
 
     setWidth(width) {
 
-        this.params.vpw = vpw
-        
-        this.params.resolution = [width, this.params.vph]
+        this.params.resolution = [width, this.params.resolution[0]]
         
         this.setParameters(this.params)
 
@@ -53,10 +58,20 @@ module.exports.GridShad = class GridShad {
 
     setHeight(height) {
 
+        this.params.resolution = [this.params.resolution[1], height]
+
+        this.setParameters(this.params)
+
+    }
+
+    resize(vpw, vph) {
+
+        this.params.vpw = vpw
         this.params.vph = vph
 
-        this.params.resolution = [this.params.vpw, height]
-        
+        this.params.x = this.rect.x;
+        this.params.y = this.rect.y;
+
         this.setParameters(this.params)
 
     }
@@ -71,6 +86,8 @@ module.exports.Grid = class Grid {
 
     constructor(params) {
 
+        if(params.vpw == null) params.vpw = 800;
+        if(params.vph == null) params.vph = 600;
         if(params.sqs_width == null) params.sqs_width = 12;
         if(params.sqs_height == null) params.sqs_height = 12;
         if(params.rect_width == null) params.rect_width = 40;
@@ -81,16 +98,18 @@ module.exports.Grid = class Grid {
         const pitch_h = params.rect_height / params.sqs_height
 
         this.gShad = new gh_grid.GridShad({
-            vpw: params.rect_width,
-            vph: params.rect_height,
+            vpw: params.vpw,
+            vph: params.vph,
+            width: params.rect_width,
+            height: params.rect_height,
             pitch: [ pitch_w, pitch_h ],
-            offset: [ 0, 0 ],
-            resolution: [ params.rect_width, params.rect_height ],
             line_color: params.line_color
         })
 
     }
 
     getRect() { return this.gShad.getRect() }
+
+    vpResize(vpw, vph) { this.gShad.resize(vpw, vph) }
 
 }

@@ -1,10 +1,10 @@
 const { ipcMain, app, BrowserWindow } = require('electron')
-const win = require('./window')
-const dialogWin = require('./dialog_window')
+const win = require('./ui/window')
+const dialogWin = require('./ui/dialog_window')
 
-const lang = require('../util/lang')
+const lang = require('./util/lang')
 
-const theme = require('../util/theme')
+const theme = require('./util/theme')
 
 var path = 0
 
@@ -18,7 +18,7 @@ function init() {
 
   global.console = console
 
-  const globalVars = require('../util/global_variables')
+  const globalVars = require('./util/global_variables')
   path = require('path')
 
   loadLang()
@@ -26,17 +26,16 @@ function init() {
 
   globalVars.registerMainProcessEvts(ipcMain)
 
-  editorWindow.createWindow("", 960, 720, path.join(__dirname, '../preload.js'), true, false, true, true, 0.7)
-
+  editorWindow.createWindow("", 960, 720, path.join(__dirname, './pages/preload.js'), true, false, true, true, 0.7)
   startFrame.createDialog("", 800, 600, editorWindow, false, false, true, true, 1)
 
   editorWindow.setBGColor(theme.getCurrThemeColor("editor_bgcolor"))
 
-  editorWindow.window.toggleDevTools()
+  //editorWindow.window.toggleDevTools()
 
-  editorWindow.load(path.join(__dirname, '../../html/editor.html'))
+  editorWindow.load(path.join(__dirname, '../html/editor.html'))
 
-  editorWindow.window.setIcon(path.join(__dirname, "../../../assets/ico-256.png"))
+  editorWindow.window.setIcon(path.join(__dirname, "../../assets/ico-256.png"))
 
   global.editorWindow = editorWindow
   global.startFrame = startFrame
@@ -45,8 +44,8 @@ function init() {
 
 function loadLang() {
 
-  lang.loadLang(path.join(__dirname, "../../../assets/lang/en_US.json"), "en_US")
-  lang.loadLang(path.join(__dirname, "../../../assets/lang/fr_FR.json"), "fr_FR")
+  lang.loadLang(path.join(__dirname, "../../assets/lang/en_US.json"), "en_US")
+  lang.loadLang(path.join(__dirname, "../../assets/lang/fr_FR.json"), "fr_FR")
 
   lang.setLang("fr_FR")
 
@@ -56,7 +55,7 @@ function loadLang() {
 
 function loadTheme() {
 
-  theme.loadTheme(path.join(__dirname, "../../../assets/theme/dark_darcula.json"), "dark_darcula")
+  theme.loadTheme(path.join(__dirname, "../../assets/theme/dark_darcula.json"), "dark_darcula")
 
   theme.setTheme("dark_darcula")
 
@@ -71,7 +70,7 @@ ipcMain.on("open-starthub", () => {
 
   //startFrame.window.toggleDevTools()
 
-  startFrame.load(path.join(__dirname, '../../html/start_hub.html'))
+  startFrame.load(path.join(__dirname, '../html/start_hub.html'))
 
 })
 

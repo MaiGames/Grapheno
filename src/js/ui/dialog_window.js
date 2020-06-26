@@ -8,6 +8,7 @@ class DialogWindow {
     
     createDialog(title, width, height, parent, showUntilLoaded = true, frame = true, resizable=false, hidden=true, minResMultiplier=0.5) {
         this.window = new BrowserWindow({
+            title: title,
             width: width,
             height: height,
             show: !hidden,
@@ -24,8 +25,6 @@ class DialogWindow {
             }
         })
 
-        this.window.setTitle(title)
-
         this.window.setMenuBarVisibility(false)
 
         this.window.setMinimumSize(width * minResMultiplier, height * minResMultiplier)
@@ -33,6 +32,7 @@ class DialogWindow {
         this.window.setResizable(resizable)
 
         const win = this.window
+
         const fullScreenInter = setInterval(function() {
             if(!win.isDestroyed()) { 
                 win.setFullScreen(false)
