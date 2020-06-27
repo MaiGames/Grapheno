@@ -3,7 +3,6 @@ const win = require('./ui/window')
 const dialogWin = require('./ui/dialog_window')
 
 const lang = require('./util/lang')
-
 const theme = require('./util/theme')
 
 var path = 0
@@ -26,12 +25,12 @@ function init() {
 
   globalVars.registerMainProcessEvts(ipcMain)
 
-  editorWindow.createWindow("", 960, 720, path.join(__dirname, './pages/preload.js'), true, false, true, true, 0.7)
+  editorWindow.createWindow("", 960, 720, path.join(__dirname, '/preload.js'), true, false, true, true, 0.7)
   startFrame.createDialog("", 800, 600, editorWindow, false, false, true, true, 1)
 
-  editorWindow.setBGColor(theme.getCurrThemeColor("editor_bgcolor"))
+  editorWindow.setBGColor(theme.getCurrThemeStr("editor_bgcolor"))
 
-  //editorWindow.window.toggleDevTools()
+  editorWindow.window.toggleDevTools()
 
   editorWindow.load(path.join(__dirname, '../html/editor.html'))
 
@@ -47,7 +46,7 @@ function loadLang() {
   lang.loadLang(path.join(__dirname, "../../assets/lang/en_US.json"), "en_US")
   lang.loadLang(path.join(__dirname, "../../assets/lang/fr_FR.json"), "fr_FR")
 
-  lang.setLang("fr_FR")
+  lang.setLang("en_US")
 
   global.lang = lang
 
@@ -66,7 +65,7 @@ function loadTheme() {
 
 ipcMain.on("open-starthub", () => {
 
-  startFrame.setBGColor(theme.getCurrThemeColor("editor_bgcolor"))
+  startFrame.setBGColor(theme.getCurrThemeStr("editor_bgcolor"))
 
   //startFrame.window.toggleDevTools()
 

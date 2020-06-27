@@ -27,6 +27,7 @@ module.exports.getGlobal = (field) => {
 
 
 module.exports.getCachedGlobal = (field) => {
+    if(cache[field] == null) return this.getGlobal(field)
     return cache[field]
 }
 

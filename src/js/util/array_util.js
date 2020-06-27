@@ -27,7 +27,8 @@ function displace_insert_at_index(array, value, index) {
 
 }
 
-/* To move a value (with index) in an array to another specific index 
+/*
+* To move a value (with index) in an array to another specific index 
 *  and move the values next to that index to position i+1, for example:
 *  we have an array of [2, 8, 4, 6, 10] and we want to move #8 at index
 *  2 to 5 to continue with the sucession, so we'd use this function and 

@@ -3,6 +3,9 @@
     "editor_bgcolor": "#1E1E1E",
     "dialogs_bgcolor": "#1E1E1E",
 
+    "canvas_grid_linecolor": "#414141",
+    "canvas_grid_border_linecolor": "#414141",
+
     "--titlebar-bg": "#424242",
     "--titlebar-btt-hover": "#5C5C5E",
     "--title-text": "#bdbdbd",

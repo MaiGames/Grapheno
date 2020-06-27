@@ -6,16 +6,24 @@ const gh_grid = require('../js/graphics/grid')
 const array_util = require('../js/util/array_util')
 const global_vars = require('../js/util/global_variables');
 
+const theme = global_vars.getCachedGlobal('theme')
+
 var pix_app;
 
 const grid = new gh_grid.Grid({
+    
     vpw: window.innerWidth,
     vph: window.innerHeight,
+
     sqs_width: 6,
     sqs_height: 6,
     rect_width: 400,
     rect_height: 400,
-    line_color: [ 1, 1, 1, 0.3 ]
+    line_color: [ 1, 1, 1, 0.3 ],
+
+    border_size: 2,
+    border_color: [1, 1, 1, 0.3]
+
 })
 
 remote.getCurrentWindow().on("first-init", (evt) => {
@@ -39,14 +47,19 @@ remote.getCurrentWindow().on("finish-init-preload", (event) => {
     // Listen for window resize events
     window.onresize = resize
 
-    var width = 25;
-    var height = 25;
+    window.onmousemove = function() {
 
-    const pos = [pix_app.renderer.plugins.interaction.mouse.global.x, pix_app.renderer.plugins.interaction.mouse.global.y]
+        const pos = [pix_app.renderer.plugins.interaction.mouse.global.x, pix_app.renderer.plugins.interaction.mouse.global.y]
+
+        grid.setPosition(pos[0], pos[1])
+
+    }
 
     pix_app.stage.addChild(grid.getRect())
 
     resize()
+
+    grid.addResizeEvent(window)
 
 })
 
@@ -74,6 +87,4 @@ function resize() {
     // Resize the renderer
     pix_app.renderer.resize(window.innerWidth, window.innerHeight);
     
-    grid.vpResize(window.innerWidth, window.innerHeight)
-
 }

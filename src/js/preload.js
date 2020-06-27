@@ -10,7 +10,7 @@
 const {ipcRenderer, remote} = require('electron');
 const fs = require('fs')
 const path = require('path')
-const globalVars = require('../util/global_variables')
+const globalVars = require('./util/global_variables')
 
 const lang = globalVars.getGlobal("lang") //get lang module
 const theme = globalVars.getGlobal("theme") //get theme module
@@ -22,8 +22,7 @@ const theme = globalVars.getGlobal("theme") //get theme module
  * They'll only be set once if they aren't defined yet so we don't have
  * to worry about it taking too much time to load everytime a new page loads.
  */
-globalVars.setGlobalIfUndefined("_bodies", function() { return fs.readFileSync(path.join(__dirname, '../../html/_bodies.html'), 'utf8') })
-//globalVars.setGlobalIfUndefined("_heads", fs.readFileSync(path.join(__dirname, '../html/_heads.html'), 'utf8'))
+globalVars.setGlobalIfUndefined("_bodies", function() { return fs.readFileSync(path.join(__dirname, '/../html/_bodies.html'), 'utf8') })
 
 const window = remote.getCurrentWindow()
 
@@ -51,7 +50,7 @@ function init() {
   document.body.innerHTML = theme.currThemeParse(document.body.innerHTML)
 
   for(let [name, value] of Object.entries(theme.getCurrTheme())) {  
-    document.documentElement.style.setProperty(name, value)
+    if(name.startsWith('--')) document.documentElement.style.setProperty(name, value)
   }
 
   /*

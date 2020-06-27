@@ -35,12 +35,16 @@ module.exports.GridShad = class GridShad {
         if(params.height == null) params.height = 500;
         if(params.pitch == null) params.pitch = [50, 50]
         if(params.line_color == null) params.line_color = [ 0, 0, 0, 0.5 ]
+        if(params.border_color == null) params.border_color = [ 1, 1, 1, 1 ]
+        if(params.border_size == null) params.border_size = 5
+
+        params.position = [0, 0]
 
         this.rect.width = params.width
         this.rect.height = params.height
 
-        params.x = this.rect.x;
-        params.y = this.rect.y;
+        params.position[0] = this.rect.x;
+        params.position[1] = this.rect.y;
 
         this.rect.filters[0] = new PIXI.Filter('', global_vars.getCachedGlobal("grid_fragshader"), params)
 
@@ -48,17 +52,13 @@ module.exports.GridShad = class GridShad {
 
     }
 
-    setWidth(width) {
+    setSize(width, height) {
 
-        this.params.resolution = [width, this.params.resolution[0]]
-        
-        this.setParameters(this.params)
+        this.params.width = width
+        this.params.height = height
 
-    }
-
-    setHeight(height) {
-
-        this.params.resolution = [this.params.resolution[1], height]
+        this.rect.width = width
+        this.rect.height = height
 
         this.setParameters(this.params)
 
@@ -69,12 +69,24 @@ module.exports.GridShad = class GridShad {
         this.params.vpw = vpw
         this.params.vph = vph
 
-        this.params.x = this.rect.x;
-        this.params.y = this.rect.y;
+        this.params.position = [this.rect.x, this.rect.y]
 
         this.setParameters(this.params)
 
     }
+
+    setPosition(x, y) {
+
+        this.rect.x = x
+        this.rect.y = y
+
+        this.params.position = [x, y]
+
+        this.setParameters(this.params)
+
+    }
+
+    getSize() { return this.params.size }
 
 }
 
@@ -93,6 +105,8 @@ module.exports.Grid = class Grid {
         if(params.rect_width == null) params.rect_width = 40;
         if(params.rect_height == null) params.rect_height = 40;
         if(params.line_color == null) params.line_color = [1, 1, 1, 0];
+        if(params.border_color == null) params.border_color = [ 1, 1, 1, 1 ]
+        if(params.border_size == null) params.border_size = 5
 
         const pitch_w = params.rect_width / params.sqs_width
         const pitch_h = params.rect_height / params.sqs_height
@@ -103,7 +117,9 @@ module.exports.Grid = class Grid {
             width: params.rect_width,
             height: params.rect_height,
             pitch: [ pitch_w, pitch_h ],
-            line_color: params.line_color
+            line_color: params.line_color,
+            border_color: params.border_color,
+            border_size: params.border_size
         })
 
     }
@@ -111,5 +127,19 @@ module.exports.Grid = class Grid {
     getRect() { return this.gShad.getRect() }
 
     vpResize(vpw, vph) { this.gShad.resize(vpw, vph) }
+
+    setPosition(x, y) { this.gShad.setPosition(x, y) }
+
+    addResizeEvent(html_window) {
+
+        const gs = this.gShad //we need a local variable of the gridshad
+
+        gs.resize(window.innerWidth, window.innerHeight)
+
+        html_window.addEventListener('resize', function() { 
+            gs.resize(window.innerWidth, window.innerHeight)
+        })
+
+    }
 
 }
