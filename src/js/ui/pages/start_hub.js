@@ -22,11 +22,11 @@ remote.getCurrentWindow().on("finish-init-preload", (event) => {
     remote.getCurrentWindow().emit("hide-minimize-maximize")
 
 
-    const toResizeElem = document.querySelector("#left-bottom-bar")
+    const toResizeElem = document.getElementById("left-bottom-bar")
 
     toResizeElem.style.height = "240px"
 
-    resizeLineElem = document.querySelector("#resize-bar")
+    resizeLineElem = document.getElementById("resize-bar")
 
     resizeLineElem.style.bottom = "254.5px"
 

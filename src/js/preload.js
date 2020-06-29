@@ -50,7 +50,20 @@ function init() {
   document.body.innerHTML = theme.currThemeParse(document.body.innerHTML)
 
   for(let [name, value] of Object.entries(theme.getCurrTheme())) {  
-    if(name.startsWith('--')) document.documentElement.style.setProperty(name, value)
+
+    if(name.startsWith('--')) {
+
+      var val = null
+
+      if(value.startsWith("$")) 
+        val = value.substr(1)
+      else
+        val = theme.getCurrThemeColor(name).toHexString()
+
+      document.documentElement.style.setProperty(name, val)
+
+    }
+
   }
 
   /*
@@ -81,13 +94,13 @@ function init() {
   setInterval(function(){ //declare interval for changing maximize button & title texts
 
     //set html title text to actual window title string
-    document.querySelector("#title").innerHTML = window.title
+    document.getElementById("title").innerHTML = window.title
 
     /*
     * Set maximize btt text depending on 
     * current maximize or fullscreen state
     */
-    const maxbtn = document.querySelector("#max-btn")
+    const maxbtn = document.getElementById("max-btn")
     if (window.isMaximized() || window.fullScreen) {
       maxbtn.innerHTML = "▾"
     } else {
@@ -96,13 +109,13 @@ function init() {
 
   }, 50)
 
-  document.querySelector("#min-btn").addEventListener("click", function (e) { //minimize title bar btt
+  document.getElementById("min-btn").addEventListener("click", function (e) { //minimize title bar btt
 
     window.minimize(); //simply minimize the window
 
   });
 
-  document.querySelector("#max-btn").addEventListener("click", function (e) { //maximize title bar btt
+  document.getElementById("max-btn").addEventListener("click", function (e) { //maximize title bar btt
 
     //alternating between fullscreen/maximized and minimized state
     if (!window.isMaximized() && !window.fullScreen) { 
@@ -114,7 +127,7 @@ function init() {
 
   });
     
-  document.querySelector("#close-btn").addEventListener("click", function (e) { //close title bar btt
+  document.getElementById("close-btn").addEventListener("click", function (e) { //close title bar btt
 
     //we simply emit an event for the current page to decide what to do
     window.emit("close-btt") 
@@ -128,12 +141,12 @@ function init() {
   window.on("hide-minimize-maximize", function() {
 
     //set btts disabled state to true, since they are still clickable after opacity = 9
-    document.querySelector("#min-btn").disabled = true 
-    document.querySelector("#max-btn").disabled = true
+    document.getElementById("min-btn").disabled = true 
+    document.getElementById("max-btn").disabled = true
 
     //set btts opacity to 0
-    document.querySelector("#min-btn").style.opacity = "0"
-    document.querySelector("#max-btn").style.opacity = "0"
+    document.getElementById("min-btn").style.opacity = "0"
+    document.getElementById("max-btn").style.opacity = "0"
 
   })
   

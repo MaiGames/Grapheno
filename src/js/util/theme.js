@@ -1,5 +1,5 @@
 const fs = require('fs')
-const tc = require('tinycolor2')
+const tinycolor = require('tinycolor2')
 
 var loadedThemes = []
 
@@ -44,7 +44,7 @@ function getCurrThemeStr(field) {
 }
 
 function getCurrThemeColor(field) {
-    return tc.tinycolor(getCurrThemeStr(field))
+    return tinycolor(getCurrThemeStr(field))
 }
 
 function currThemeParse(toParseStr) {
@@ -62,4 +62,4 @@ module.exports.setTheme = setTheme
 module.exports.getCurrTheme = getCurrTheme
 module.exports.currThemeParse = currThemeParse
 module.exports.getCurrThemeColor = getCurrThemeColor
-module.exports.getCurrThemeStr = getCurrThemeColor
+module.exports.getCurrThemeStr = getCurrThemeStr

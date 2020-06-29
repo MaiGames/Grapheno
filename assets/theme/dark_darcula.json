@@ -3,8 +3,8 @@
     "editor_bgcolor": "#1E1E1E",
     "dialogs_bgcolor": "#1E1E1E",
 
-    "canvas_grid_linecolor": "#414141",
-    "canvas_grid_border_linecolor": "#414141",
+    "canvas_grid_linecolor": "gray",
+    "canvas_grid_border_linecolor": "gray",
 
     "--titlebar-bg": "#424242",
     "--titlebar-btt-hover": "#5C5C5E",
@@ -19,7 +19,7 @@
     "--bars-bg-hover-2": "#313133",
     "--bars-text-2": "#a9b1b1",
     "--bars-text-hover-2": "#bfc7c7",
-    "--bars-invert-2": "0.25",
-    "--bars-invert-hover-2": "0.10"
+    "--bars-invert-2": "$0.25",
+    "--bars-invert-hover-2": "$0.10"
 
 }

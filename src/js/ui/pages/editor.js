@@ -1,30 +1,15 @@
 const PIXI = require('pixi.js')
 const install = require('@pixi/unsafe-eval').install
+const tinycolor = require('tinycolor2')
 
-const gh_grid = require('../js/graphics/grid')
+const pixel_canvas = require('../js/graphics/canvas/pixel_canvas')
 
 const array_util = require('../js/util/array_util')
 const global_vars = require('../js/util/global_variables');
-
 const theme = global_vars.getCachedGlobal('theme')
 
-var pix_app;
-
-const grid = new gh_grid.Grid({
-    
-    vpw: window.innerWidth,
-    vph: window.innerHeight,
-
-    sqs_width: 6,
-    sqs_height: 6,
-    rect_width: 400,
-    rect_height: 400,
-    line_color: [ 1, 1, 1, 0.3 ],
-
-    border_size: 2,
-    border_color: [1, 1, 1, 0.3]
-
-})
+var pix_app = null
+var canvas = null
 
 remote.getCurrentWindow().on("first-init", (evt) => {
 
@@ -51,15 +36,28 @@ remote.getCurrentWindow().on("finish-init-preload", (event) => {
 
         const pos = [pix_app.renderer.plugins.interaction.mouse.global.x, pix_app.renderer.plugins.interaction.mouse.global.y]
 
-        grid.setPosition(pos[0], pos[1])
-
     }
 
-    pix_app.stage.addChild(grid.getRect())
-
     resize()
+    
+    canvas = new pixel_canvas.PixelCanvas(pix_app, window, {
 
-    grid.addResizeEvent(window)
+        sqs_width: 20,
+        sqs_height: 20,
+        rect_width: 600,
+        rect_height: 600,
+
+        grid_linecolor: theme.getCurrThemeColor("canvas_grid_linecolor"),
+        grid_border_linecolor: theme.getCurrThemeColor("canvas_grid_border_linecolor")
+    
+    })
+
+    canvas.init()
+
+    document.getElementsByTagName("canvas")[0].addEventListener("wheel", (event) => {
+        canvas.grid.setPosition(Math.round(canvas.grid.getPosition()[0] + event.deltaX), 
+                                Math.round(canvas.grid.getPosition()[1] + event.deltaY))
+    })
 
 })
 
@@ -85,6 +83,6 @@ function request_quit() {
 function resize() {
 
     // Resize the renderer
-    pix_app.renderer.resize(window.innerWidth, window.innerHeight);
+    pix_app.renderer.resize(window.innerWidth, window.innerHeight)
     
 }

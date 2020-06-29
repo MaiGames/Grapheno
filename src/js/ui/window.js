@@ -34,8 +34,8 @@ class Window {
         if(showUntilLoaded) {
             const win = this.window
             this.window.webContents.on('did-finish-load', function() {
-                win.show();
                 if(maximize) win.maximize()
+                win.show();
             });
         }
 

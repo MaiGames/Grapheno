@@ -1,24 +1,21 @@
+require('v8-compile-cache') //optimization
+
 const { ipcMain, app, BrowserWindow } = require('electron')
+const path = require('path')
+
 const win = require('./ui/window')
 const dialogWin = require('./ui/dialog_window')
 
+const globalVars = require('./util/global_variables')
 const lang = require('./util/lang')
 const theme = require('./util/theme')
 
-var path = 0
-
-require('v8-compile-cache') //optimization
-
 const editorWindow = new win.Window()
-
 const startFrame = new dialogWin.DialogWindow()
 
 function init() {
 
   global.console = console
-
-  const globalVars = require('./util/global_variables')
-  path = require('path')
 
   loadLang()
   loadTheme()
@@ -28,12 +25,10 @@ function init() {
   editorWindow.createWindow("", 960, 720, path.join(__dirname, '/preload.js'), true, false, true, true, 0.7)
   startFrame.createDialog("", 800, 600, editorWindow, false, false, true, true, 1)
 
-  editorWindow.setBGColor(theme.getCurrThemeStr("editor_bgcolor"))
-
   editorWindow.window.toggleDevTools()
 
+  editorWindow.setBGColor(theme.getCurrThemeColor("editor_bgcolor").toHexString())
   editorWindow.load(path.join(__dirname, '../html/editor.html'))
-
   editorWindow.window.setIcon(path.join(__dirname, "../../assets/ico-256.png"))
 
   global.editorWindow = editorWindow
@@ -58,14 +53,14 @@ function loadTheme() {
 
   theme.setTheme("dark_darcula")
 
-  global.theme = theme;
+  global.theme = theme
 
 }
 
 
 ipcMain.on("open-starthub", () => {
 
-  startFrame.setBGColor(theme.getCurrThemeStr("editor_bgcolor"))
+  startFrame.setBGColor(theme.getCurrThemeColor("dialogs_bgcolor").toHexString())
 
   //startFrame.window.toggleDevTools()
 
