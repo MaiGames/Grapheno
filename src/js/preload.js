@@ -10,7 +10,7 @@
 const {ipcRenderer, remote} = require('electron');
 const fs = require('fs')
 const path = require('path')
-const globalVars = require('./util/global_variables')
+const globalVars = require('./global_variables')
 
 const lang = globalVars.getGlobal("lang") //get lang module
 const theme = globalVars.getGlobal("theme") //get theme module
@@ -24,7 +24,7 @@ const theme = globalVars.getGlobal("theme") //get theme module
  */
 globalVars.setGlobalIfUndefined("_bodies", function() { return fs.readFileSync(path.join(__dirname, '/../html/_bodies.html'), 'utf8') })
 
-const window = remote.getCurrentWindow()
+const e_window = remote.getCurrentWindow()
 
 var hideMinimizeMaximize = false
 
@@ -75,12 +75,12 @@ function init() {
   if(!globalVars.getGlobal('firstInit')) { //stuff to do when this is not the first init (first page loaded)
   
     //we'll simply emit an event for the current page to decide what to do
-    window.emit("not-first-init") 
+    e_window.emit("not-first-init") 
 
   } else { //stuff to do when this is the first init
 
     //we'll simply emit an event for the current page to decide what to do
-    window.emit("first-init") 
+    e_window.emit("first-init") 
 
     globalVars.setGlobal("firstInit", false) //for next inits checking
 
@@ -91,38 +91,38 @@ function init() {
    * for the window html top-var 
    */
 
-  setInterval(function(){ //declare interval for changing maximize button & title texts
+  e_window.on("resize", function(e) {
 
-    //set html title text to actual window title string
-    document.getElementById("title").innerHTML = window.title
+    //set html title text to current window title string
+    document.getElementById("title").innerHTML = e_window.title
 
     /*
     * Set maximize btt text depending on 
     * current maximize or fullscreen state
     */
     const maxbtn = document.getElementById("max-btn")
-    if (window.isMaximized() || window.fullScreen) {
+    if (e_window.isMaximized() || e_window.fullScreen) {
       maxbtn.innerHTML = "▾"
     } else {
       maxbtn.innerHTML = "▴"
     }
 
-  }, 50)
+  }) 
 
   document.getElementById("min-btn").addEventListener("click", function (e) { //minimize title bar btt
 
-    window.minimize(); //simply minimize the window
+    e_window.minimize(); //simply minimize the window
 
   });
 
   document.getElementById("max-btn").addEventListener("click", function (e) { //maximize title bar btt
 
     //alternating between fullscreen/maximized and minimized state
-    if (!window.isMaximized() && !window.fullScreen) { 
-        window.maximize();
+    if (!e_window.isMaximized() && !e_window.fullScreen) { 
+        e_window.maximize();
     } else {
-        window.unmaximize();
-        window.fullScreen = false
+        e_window.unmaximize();
+        e_window.fullScreen = false
     }
 
   });
@@ -130,7 +130,7 @@ function init() {
   document.getElementById("close-btn").addEventListener("click", function (e) { //close title bar btt
 
     //we simply emit an event for the current page to decide what to do
-    window.emit("close-btt") 
+    e_window.emit("close-btt") 
 
   });
 
@@ -138,7 +138,7 @@ function init() {
   * In some places we might need to hide minimize and 
   * maximize btts, so we add an event listener for this.
   */
-  window.on("hide-minimize-maximize", function() {
+  e_window.on("hide-minimize-maximize", function() {
 
     //set btts disabled state to true, since they are still clickable after opacity = 9
     document.getElementById("min-btn").disabled = true 
@@ -153,7 +153,7 @@ function init() {
   document.addEventListener('dragover', event => event.preventDefault());
   document.addEventListener('drop', event => event.preventDefault());
 
-  window.emit("finish-init-preload")
+  e_window.emit("finish-init-preload")
 
 }
 
@@ -167,7 +167,7 @@ document.addEventListener('DOMContentLoaded', function() {
 */
 
 //To hide the min and max btts as soon as posible
-window.on("queue-hide-minimize-maximize", function() {
+e_window.on("queue-hide-minimize-maximize", function() {
 
   hideMinimizeMaximize = true
 

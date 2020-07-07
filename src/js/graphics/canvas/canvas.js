@@ -35,6 +35,8 @@ module.exports.Canvas = class Canvas extends EventEmitter {
 
     getLayerIndex(layer_name) { }
 
+    scroll(deltaX, deltaY) { }
+
     destroy() { }
 
 }

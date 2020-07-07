@@ -1,4 +1,4 @@
-const global_vars = require('../util/global_variables');
+const global_vars = require('../global_variables');
 const file_util = require('../util/file_util');
 const color_util = require('../util/color_util');
 
@@ -19,6 +19,8 @@ class GridShad {
         this.rect.filters = [ null ]
 
         this.setParameters(params)
+
+        this.rect.filters[0] = new this.PIXI.Filter('', global_vars.getCachedGlobal("grid_fragshader"), params)
 
     }
 
@@ -51,8 +53,6 @@ class GridShad {
 
         params.position[0] = this.rect.x;
         params.position[1] = this.rect.y;
-
-        this.rect.filters[0] = new this.PIXI.Filter('', global_vars.getCachedGlobal("grid_fragshader"), params)
 
         this.params = params
 

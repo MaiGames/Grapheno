@@ -5,7 +5,7 @@ const tinycolor = require('tinycolor2')
 const pixel_canvas = require('../js/graphics/canvas/pixel_canvas')
 
 const array_util = require('../js/util/array_util')
-const global_vars = require('../js/util/global_variables');
+const global_vars = require('../js/global_variables');
 const theme = global_vars.getCachedGlobal('theme')
 
 var pix_app = null
@@ -55,8 +55,8 @@ remote.getCurrentWindow().on("finish-init-preload", (event) => {
     canvas.init()
 
     document.getElementsByTagName("canvas")[0].addEventListener("wheel", (event) => {
-        canvas.grid.setPosition(Math.round(canvas.grid.getPosition()[0] + event.deltaX), 
-                                Math.round(canvas.grid.getPosition()[1] + event.deltaY))
+        canvas.scroll(Math.round(canvas.grid.getPosition()[0] + event.deltaX), 
+                      Math.round(canvas.grid.getPosition()[1] + event.deltaY))
     })
 
 })

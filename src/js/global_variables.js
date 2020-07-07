@@ -11,10 +11,11 @@ module.exports.registerMainProcessEvts = (ipcMain) => {
       
     })
     
-    ipcMain.on("getGlobalVar", (event, globalProperty) => {
+    ipcMain.on("defGlobalModule", (event, name, module) => {
 
-        global[globalProperty] = value
-        console.log("Changed/defined value of global var '"+ globalProperty +"' in main process")
+        global[name] = require(module)        
+
+        console.log("Changed/defined value of global module '"+ name +"' in main process")
       
     })
 
@@ -65,4 +66,40 @@ module.exports.setGlobalIfUndefinedSync = (field, value) => {
         cache[field] = value
         ipcRenderer.sendSync("setGlobalVar", field, value)
     }
+}
+
+module.exports.globalRequire = function(module) {
+
+    const varname = "modulereq_" + module
+
+    const glob = remote.getGlobal(varname)
+
+    if(cache[varname] != null) {
+
+        return cache[varname]
+
+    }else if(glob == null){
+
+        ipcRenderer.send("defGlobalModule", varname, module)
+
+        cache[varname] = remote.getGlobal(varname)
+        return cache[varname]
+
+    } else {
+
+        cache[varname] = glob
+        return cache[varname]
+
+    }
+
+}
+
+module.exports.mainRequire = function(module) {
+
+    const varname = "modulereq_" + module
+    
+    global[varname] = require(module)
+
+    return global[varname]
+
 }

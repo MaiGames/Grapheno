@@ -1,10 +1,12 @@
 const array_util = require('../../util/array_util')
-const parent = require('./canvas')
-
-const gh_grid = require('../grid')
 const color_util = require('../../util/color_util')
 
-module.exports.PixelCanvas = class PixelCanvas extends parent.Canvas {
+const gh_grid = require('../grid')
+
+const Canvas = require('./canvas').Canvas
+const Layer = require('./canvas').Layer
+
+module.exports.PixelCanvas = class PixelCanvas extends Canvas {
     
     intervals = []
 
@@ -12,6 +14,8 @@ module.exports.PixelCanvas = class PixelCanvas extends parent.Canvas {
 
         super(pix_app, html_window, params, layers)
         
+        this.init()
+
     }
 
     init() {
@@ -125,7 +129,7 @@ module.exports.PixelCanvas = class PixelCanvas extends parent.Canvas {
 
 }
 
-module.exports.PixelLayer = class PixelLayer extends parent.Layer {
+module.exports.PixelLayer = class PixelLayer extends Layer {
 
     constructor(name){
 
