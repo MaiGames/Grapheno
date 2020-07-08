@@ -37,7 +37,6 @@ script:
   - |
     if [ "$TRAVIS_OS_NAME" == "linux" ]; then
       docker run --rm \
-        -e BT_TOKEN=$BT_TOKEN \
         -e GH_TOKEN=$GH_TOKEN \
         -v $PWD:/project \
         -v ~/.cache/electron:/root/.cache/electron \
@@ -62,3 +61,13 @@ before_cache:
 branches:
   except:
     - "/^v\\d+\\.\\d+\\.\\d+$/"
+
+deploy:
+  provider: releases
+  api_key: $GH_TOKEN
+  file: 
+    - "dist/grapheno-installer.exe"
+    - "dist/grapheno-portable.exe"
+  skip_cleanup: true
+  on:
+    tags: false

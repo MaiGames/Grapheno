@@ -1,7 +1,7 @@
 {
   "name": "grapheno",
   "version": "1.0.0",
-  "description": "Pixelart Software",
+  "description": "Pixel Art Software",
   "main": "src/js/main.js",
   "scripts": {
     "start": "electron .",
@@ -9,11 +9,11 @@
     "build:win32": "electron-builder --win",
     "build:darwin": "electron-builder --mac",
     "clean": "rimraf ./dist",
-    "release": "electron-builder --publish onTag"
+    "release": "electron-builder --win"
   },
   "repository": "https://github.com/MaiGames/Grapheno/",
   "keywords": [
-    "Pixelart",
+    "Pixel Art",
     "Art",
     "Game Dev",
     "Vectors",
@@ -27,12 +27,8 @@
     "productName": "Grapheno",
     "copyright": "MIT",
     "files": [
-      "**/*",
-      "build/Release/*",
-      "assets/*.*",
-      "src/css/*.*",
-      "src/html/*.*",
-      "src/css/*.*"
+      "assets/**",
+      "src/**"
     ],
     "mac": {
       "category": "public.build.automation",
@@ -73,24 +69,11 @@
     "nsis": {
       "runAfterFinish": true,
       "installerIcon": "assets/ico-256.ico",
-      "artifactName": "grapheno-${version}.${ext}"
+      "artifactName": "grapheno-installer.${ext}"
     },
     "portable": {
-      "artifactName": "grapheno.exe"
-    },
-    "appx": {
-      "applicationId": "grapheno",
-      "backgroundColor": "#1E1E1E",
-      "identityName": "grapheno",
-      "publisherDisplayName": "MaiGames Studios",
-      "artifactName": "grapheno-${version}.${ext}"
-    },
-    "publish": [
-      {
-        "provider": "github",
-        "releaseType": "release"
-      }
-    ]
+      "artifactName": "grapheno-portable.${ext}"
+    }
   },
   "dependencies": {
     "@pixi/unsafe-eval": "^5.3.0",
