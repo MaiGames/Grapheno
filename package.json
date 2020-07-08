@@ -9,7 +9,7 @@
     "build:win32": "electron-builder --win",
     "build:darwin": "electron-builder --mac",
     "clean": "rimraf ./dist",
-    "release": "electron-builder --win"
+    "release": "electron-builder --win --publish never"
   },
   "repository": "https://github.com/MaiGames/Grapheno/",
   "keywords": [
