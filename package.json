@@ -2,7 +2,7 @@
   "name": "grapheno",
   "version": "1.0.0",
   "description": "Pixel Art Software",
-  "main": "src/js/main.js",
+  "main": "src/js-dist/main.js",
   "scripts": {
     "start": "electron .",
     "build": "run-os",
@@ -28,7 +28,10 @@
     "copyright": "MIT",
     "files": [
       "assets/**",
-      "src/**"
+      "src/glsl/**",
+      "src/html/**",
+      "src/css/**",
+      "src/js-dist/**"
     ],
     "mac": {
       "category": "public.build.automation",
@@ -86,6 +89,7 @@
     "zebras": "0.0.18"
   },
   "devDependencies": {
+    "@types/tinycolor2": "^1.4.2",
     "electron": "^9.0.2",
     "electron-builder": "^22.7.0",
     "rimraf": "^2.6.3",

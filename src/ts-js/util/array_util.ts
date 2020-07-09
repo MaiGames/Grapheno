@@ -4,14 +4,14 @@
 *  the sucession, so we'd use this function and the result would be
 *  [2, 4, 6, 8, 10]
 */
-function displace_insert_at_index(array, value, index) {
+export function displace_insert_at_index(array: Array<any>, value: any, index: number) {
 
     if(array.length < 2){ 
         array.push(value)
         return array
     }
 
-    var new_array = []
+    const new_array = []
 
     for(var i = 0 ; i < index ; i++) {
         new_array.push(array[i])
@@ -34,7 +34,7 @@ function displace_insert_at_index(array, value, index) {
 *  2 to 5 to continue with the sucession, so we'd use this function and 
 *  the result would be [2, 4, 6, 8, 10]
 */
-function move_index_to_index(arr, old_index, new_index) {
+export function move_index_to_index(arr: Array<any>, old_index: number, new_index: number) {
     if (new_index >= arr.length) {
         var k = new_index - arr.length + 1;
         while (k--) {
@@ -44,6 +44,3 @@ function move_index_to_index(arr, old_index, new_index) {
     arr.splice(new_index, 0, arr.splice(old_index, 1)[0]);
     return arr;
 }
-
-module.exports.displace_insert_at_index = displace_insert_at_index
-module.exports.move_index_to_index = move_index_to_index

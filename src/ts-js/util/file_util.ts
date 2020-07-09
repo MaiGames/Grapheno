@@ -1,11 +1,10 @@
 //const path = require('path')
-const fs = require('fs')
-const filter = require('pixi.js').Filter
+import * as fs from 'fs'
+import { IHash } from './interfaces'
 
+const fileStrCache: IHash = {}
 
-fileStrCache = {}
-
-module.exports.loadFileStr = (path) => {
+export function loadFileStr(path: string) {
 
     fileStrCache[path] = fs.readFileSync(path).toString()
 
@@ -13,8 +12,7 @@ module.exports.loadFileStr = (path) => {
 
 }
 
-
-module.exports.loadCachedFileStr = (path) => {
+export function loadCachedFileStr(path: string) {
 
     if(fileStrCache[path] == undefined) fileStrCache[path] = fs.readFileSync(path).toString()
 

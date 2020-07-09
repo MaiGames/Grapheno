@@ -5,7 +5,7 @@ const tinycolor = require('tinycolor2')
 const pixel_canvas = require('../js/graphics/canvas/pixel_canvas')
 
 const array_util = require('../js/util/array_util')
-const global_vars = require('../js/global_variables');
+const global_vars = require('../js/global');
 const theme = global_vars.getCachedGlobal('theme')
 
 var pix_app = null

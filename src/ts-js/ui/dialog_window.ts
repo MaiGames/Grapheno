@@ -1,26 +1,27 @@
-const {app, BrowserWindow} = require('electron')
+import { app, BrowserWindow } from 'electron'
+import Window from './window'
 
-class DialogWindow {
+export default class DialogWindow {
 
-    window = null
+    window!: BrowserWindow
 
     constructor() { }
     
-    createDialog(title, width, height, parent, showUntilLoaded = true, frame = true, resizable=false, hidden=true, minResMultiplier=0.5) {
+    createDialog(title: string, width: number, height: number, parent: Window, showUntilLoaded = true, frame = true, resizable=false, hidden=true, minResMultiplier=0.5) {
         this.window = new BrowserWindow({
             title: title,
             width: width,
             height: height,
             show: !hidden,
             modal: true,
-            parent: parent.window,
+            parent: parent.b_window,
             frame: frame,
             fullscreen: false,
+            transparent: true,
             maximizable: resizable,
             webPreferences: {
                 preload: parent.preload,
                 nodeIntegration: true,
-                transparent: true,
                 enableRemoteModule: true
             }
         })
@@ -46,21 +47,19 @@ class DialogWindow {
             const win = this.window
 
             this.window.webContents.on('did-finish-load', function() {
-                if(!parent.isDestroyed()) win.show();
+                if(!parent.b_window.isDestroyed()) win.show();
             });
 
         }
 
     }
 
-    load(path){
+    load(path: string){
         this.window.loadURL(path)
     }
 
-    setBGColor(color){
+    setBGColor(color: string){
         this.window.setBackgroundColor(color)
     }
 
 }
-
-module.exports.DialogWindow = DialogWindow

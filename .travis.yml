@@ -1,4 +1,4 @@
-#File source: https://github.com/joeireland/electron-travis (A great example tho, it helped a lot!) ~M.M
+#Source: https://github.com/joeireland/electron-travis (A great example tho, it helped a lot!) ~M.M
 
 matrix:
   include:
@@ -64,12 +64,12 @@ branches:
 
 deploy:
   provider: releases
-  api_key: $GH_TOKEN
-  tag_name: "$TRAVIS_COMMIT_MESSAGE"
+  token: $GH_TOKEN
+  tag_name: $TRAVIS_COMMIT_MESSAGE
   draft: true
   file: 
     - "dist/grapheno-installer.exe"
     - "dist/grapheno-portable.exe"
-  skip_cleanup: true
+  cleanup: false
   on:
-    tags: true
+    tags: false
