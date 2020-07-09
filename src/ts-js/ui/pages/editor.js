@@ -2,22 +2,17 @@ const PIXI = require('pixi.js')
 const install = require('@pixi/unsafe-eval').install
 const tinycolor = require('tinycolor2')
 
-const pixel_canvas = require('../js/graphics/canvas/pixel_canvas')
+const pixel_canvas = require('../js-dist/graphics/canvas/pixel_canvas')
 
-const array_util = require('../js/util/array_util')
-const global_vars = require('../js/global');
-const theme = global_vars.getCachedGlobal('theme')
+const array_util = require('../js-dist/util/array_util')
+const global_vars = require('../js-dist/global');
+
+const manager = global_vars.getCachedGlobal('general_manager')
 
 var pix_app = null
 var canvas = null
 
-remote.getCurrentWindow().on("first-init", (evt) => {
-
-    ipcRenderer.send("open-starthub")
-
-})
-
-remote.getCurrentWindow().on("finish-init-preload", (event) => {
+manager.eventEmitter.on("finish-init-preload", (event) => {
 
     install(PIXI) //apply patch for unsafe-eval
 
@@ -47,8 +42,8 @@ remote.getCurrentWindow().on("finish-init-preload", (event) => {
         rect_width: 600,
         rect_height: 600,
 
-        grid_linecolor: theme.getCurrThemeColor("canvas_grid_linecolor"),
-        grid_border_linecolor: theme.getCurrThemeColor("canvas_grid_border_linecolor")
+        grid_linecolor: manager.theme.getCurrThemeColor("canvas_grid_linecolor"),
+        grid_border_linecolor: manager.theme.getCurrThemeColor("canvas_grid_border_linecolor")
     
     })
 
@@ -61,8 +56,7 @@ remote.getCurrentWindow().on("finish-init-preload", (event) => {
 
 })
 
-
-remote.getCurrentWindow().on("close-btt", (evt) => {
+manager.eventEmitter.on("close-btt", (evt) => {
 
     remote.getCurrentWindow().hide()
 
@@ -77,7 +71,6 @@ function request_quit() {
     remote.app.quit()
 
 }
-
 
 // Resize function window
 function resize() {

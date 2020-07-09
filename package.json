@@ -4,12 +4,12 @@
   "description": "Pixel Art Software",
   "main": "src/js-dist/main.js",
   "scripts": {
-    "start": "electron .",
+    "start": "tsc && electron .",
     "build": "run-os",
-    "build:win32": "electron-builder --win",
-    "build:darwin": "electron-builder --mac",
+    "build:win32": "tsc && electron-builder --win",
+    "build:darwin": "tsc && electron-builder --mac",
     "clean": "rimraf ./dist",
-    "release": "electron-builder --win --publish never"
+    "release": "tsc && electron-builder --win --publish never"
   },
   "repository": "https://github.com/MaiGames/Grapheno/",
   "keywords": [

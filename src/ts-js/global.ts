@@ -5,39 +5,20 @@ import { EventEmitter } from 'events'
 
 const cache: IHash = {}
 
-export function initGlobalMain(ipcMain: IpcMain): IHash {
-
-    const globals: IHash = { }
-
-    globals['eventEmitter'] = new GlobalEventEmitter()
+export function initGlobalMain(ipcMain: IpcMain) {
 
     ipcMain.on("setGlobalVar", (event, globalProperty: string, value: any) => {
 
-        globals[globalProperty] = value
+        global[globalProperty] = value
         console.log("Changed/defined value of global var '"+ globalProperty +"' in main process")
       
     })
 
-    ipcMain.on("getGlobalVar", (event, globalProperty: string) => {
-
-        console.log("Value of global var '" + globalProperty + "' is " + globals[globalProperty] + " " + typeof(globals[globalProperty]))
-        event.returnValue = globals[globalProperty]
-
-    }) 
-
-    return { eventEmitter: globals['eventEmitter'], globals: globals }
-
 }
 
 export function getGlobal(field: string) {
-    cache[field] = ipcRenderer.sendSync("getGlobalVar", field)
+    cache[field] = remote.getGlobal(field)
     return cache[field]
-}
-
-export function getEventEmitter(): GlobalEventEmitter {
-
-    return getCachedGlobal("eventEmitter")
-
 }
 
 export function getCachedGlobal(field: string) {
@@ -80,5 +61,3 @@ export function setGlobalIfUndefinedSync(field: string, func: Function) {
         ipcRenderer.sendSync("setGlobalVar", field, cache[field])
     }
 }
-
-export class GlobalEventEmitter extends EventEmitter { } 

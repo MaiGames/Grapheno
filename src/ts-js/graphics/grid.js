@@ -1,4 +1,4 @@
-const global_vars = require('../global_variables');
+const global_vars = require('../global');
 const file_util = require('../util/file_util');
 const color_util = require('../util/color_util');
 

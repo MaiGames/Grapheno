@@ -17,7 +17,6 @@ export default class Window {
             height: height,
             show: !hidden,
             frame: frame,
-            transparent: hidden,
             webPreferences: {
                 preload: preload,
                 nodeIntegration: true,
@@ -32,11 +31,16 @@ export default class Window {
         this.b_window.setMinimumSize(Math.round(width * minResMultiplier), Math.round(height * minResMultiplier))
 
         if(showUntilLoaded) {
+
             const win = this.b_window
+
             this.b_window.webContents.on('did-finish-load', function() {
+
                 if(maximize) win.maximize()
-                win.show();
+                win.show()
+                
             });
+
         }
 
     }

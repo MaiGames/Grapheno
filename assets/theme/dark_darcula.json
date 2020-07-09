@@ -1,6 +1,5 @@
 {
 
-    "editor_bgcolor": "#1E1E1E",
     "dialogs_bgcolor": "#1E1E1E",
 
     "canvas_grid_linecolor": "gray",
@@ -9,6 +8,8 @@
     "--titlebar-bg": "#424242",
     "--titlebar-btt-hover": "#5C5C5E",
     "--title-text": "#bdbdbd",
+
+    "--editor-bg": "#1E1E1E",
     
     "--bars-bg-1": "#333333",
     "--bars-text-1": "#9ea5a5",

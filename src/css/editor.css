@@ -1,7 +1,16 @@
+:root {
+
+  --editor-bg: #000000;
+  
+}
+
 body {
   margin:0;
   padding:0;
   overflow:hidden;
+
+  background-color: var(--editor-bg)
+
 }
   
 canvas {

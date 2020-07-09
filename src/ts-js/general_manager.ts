@@ -3,10 +3,16 @@ import Theme from "./util/theme"
 
 import path from 'path'
 
+import * as global_vars from './global';
+
+import EventEmitter from "events";
+
 export default class GeneralManager {
 
     lang = new Lang()
     theme = new Theme()
+
+    eventEmitter = new EventEmitter()
 
     constructor() {
 

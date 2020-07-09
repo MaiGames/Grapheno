@@ -11,6 +11,7 @@ import {ipcRenderer, remote} from 'electron'
 import fs from 'fs'
 import path from 'path'
 import * as globals from './global'
+
 import GeneralManager from './general_manager'
 
 /*
@@ -26,20 +27,20 @@ const e_window = remote.getCurrentWindow()
 
 var hideMinimizeMaximize = false
 
-const manager = new GeneralManager()
+const manager: GeneralManager = new GeneralManager()
+
+globals.setGlobalIfUndefined("general_manager", function() { return manager })
 
 /*
-* Function to be called when a new page loads
+* Function to be called when the page loads
 */
 function init() { 
-
-  remote.getCurrentWindow().setBackgroundColor(manager.theme.getCurrThemeColor("editor_bgcolor").toHexString())
 
   /*
   * Injection part: We'll simply concatenate the
   * global _bodies content into the current body
   */
-  document.body.innerHTML = globals.getGlobal("_bodies") + document.body.innerHTML
+  document.body.innerHTML = globals.getCachedGlobal("_bodies") + document.body.innerHTML
 
   /*
   * Localization and theme parts: We'll replace all String parts with an specific format 
@@ -55,15 +56,15 @@ function init() {
    */
   globals.setGlobalIfUndefined("firstInit", function() { return true })
 
-  if(!globals.getGlobal('firstInit')) { //stuff to do when this is not the first init (first page loaded)
+  if(!globals.getGlobal('firstInit')) { //stuff to do when this is not the first init (first time loaded)
   
     //we'll simply emit an event for the current page to decide what to do
-    globals.getEventEmitter().emit("not-first-init") 
+    manager.eventEmitter.emit("not-first-init") 
 
   } else { //stuff to do when this is the first init
 
     //we'll simply emit an event for the current page to decide what to do
-    globals.getEventEmitter().emit("first-init") 
+    manager.eventEmitter.emit("first-init") 
 
     globals.setGlobal("firstInit", false) //for next inits checking
 
@@ -96,7 +97,7 @@ function init() {
 
   minbtn.addEventListener("click", function (e) { //minimize title bar btt
 
-    e_window.minimize(); //simply minimize the window
+    e_window.minimize() //simply minimize the window
 
   });
 
@@ -104,9 +105,9 @@ function init() {
 
     //alternating between fullscreen/maximized and minimized state
     if (!e_window.isMaximized() && !e_window.fullScreen) { 
-        e_window.maximize();
+        e_window.maximize()
     } else {
-        e_window.unmaximize();
+        e_window.unmaximize()
         e_window.fullScreen = false
     }
 
@@ -115,7 +116,7 @@ function init() {
   document.getElementById("close-btn")!.addEventListener("click", function (e) { //close title bar btt
 
     //we simply emit an event for the current page to decide what to do
-    e_window.emit("close-btt") 
+    manager.eventEmitter.emit("close-btt") 
 
   });
 
@@ -123,7 +124,7 @@ function init() {
   * In some places we might need to hide minimize and 
   * maximize btts, so we add an event listener for this.
   */
-  globals.getEventEmitter().on('finish-init-preload', function() {
+  manager.eventEmitter.on('hide-minimize-maximize', function() {
 
     //set btts disabled state to true, since they are still clickable after opacity = 9
     minbtn.disabled = true
@@ -138,11 +139,9 @@ function init() {
   document.addEventListener('dragover', event => event.preventDefault());
   document.addEventListener('drop', event => event.preventDefault());
 
-  e_window.emit("finish-init-preload")
+  manager.eventEmitter.emit("finish-init-preload")
 
 }
 
 //call init function when the dom content is loaded
-document.addEventListener('DOMContentLoaded', function() {
-  init()
-})
+document.addEventListener('DOMContentLoaded', init)
