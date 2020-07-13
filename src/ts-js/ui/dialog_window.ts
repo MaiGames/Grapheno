@@ -34,12 +34,13 @@ export default class DialogWindow {
 
         const win = this.window
 
-        const fullScreenInter = setInterval(function() {
-            if(!win.isDestroyed()) { 
+        const fullScreenInterval = setInterval(function() {
+
+            if(!win.isDestroyed())
                 win.setFullScreen(false)
-            } else {
-                clearInterval(fullScreenInter)
-            }
+            else
+                clearInterval(fullScreenInterval)
+
         }, 1)
 
         if(showUntilLoaded) {

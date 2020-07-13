@@ -2,7 +2,7 @@ import "tinycolor2"
 
 type Color = tinycolor.Instance
 
-module.exports.toDecimalRGBArray4 = function(color: Color) {
+export function toDecimalRGBArray4(color: Color) {
 
     if(color == null) return null
 
@@ -15,7 +15,7 @@ module.exports.toDecimalRGBArray4 = function(color: Color) {
 
 }
 
-module.exports.toDecimalRGBArray3 = function(color: Color) {
+export function toDecimalRGBArray3(color: Color) {
 
     if(color == null) return null
 
@@ -27,7 +27,7 @@ module.exports.toDecimalRGBArray3 = function(color: Color) {
 
 }
 
-module.exports.toRGBArray4 = function(color: Color) {
+export function toRGBArray4(color: Color) {
 
     if(color == null) return null
 

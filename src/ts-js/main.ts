@@ -5,19 +5,19 @@ import * as path from 'path'
 
 import Window from './ui/window'
 
-import * as global_vars from './global';
+import * as globals from './global';
 
 const editorWindow = new Window()
 
 function init() {
 
-  global_vars.initGlobalMain(ipcMain)
+  globals.initGlobalMain(ipcMain)
 
   global["console"] = console
 
   editorWindow.createWindow("", 960, 720, path.join(__dirname, '/preload.js'), true, false, true, true, 0.7)
 
-  editorWindow.b_window.webContents.toggleDevTools()
+  //editorWindow.b_window.webContents.toggleDevTools()
 
   editorWindow.load(path.join(__dirname, '../html/editor.html'))
   editorWindow.b_window.setIcon(path.join(__dirname, "../../assets/ico-256.png"))

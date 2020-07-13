@@ -1,32 +1,39 @@
-const global_vars = require('../global');
-const file_util = require('../util/file_util');
-const color_util = require('../util/color_util');
+import * as globals from '../global'
+import { IHash } from '../util/interfaces';
 
-const tiny_color = require('tinycolor2')
+import * as PIXI from 'pixi.js'
 
-class GridShad {
+import * as path from 'path'
 
-    constructor(params) {
+import * as file_util from '../util/file_util'
+import * as color_util from '../util/color_util'
+
+import tinycolor from 'tinycolor2';
+
+type Color = tinycolor.Instance
+
+export class GridShad {
+
+    rect: PIXI.Sprite
+    params: IHash  = { }
+
+    constructor(params: IHash) {
         
-        this.PIXI = require('pixi.js')
-
-        global_vars.setGlobalIfUndefined("grid_fragshader", function() {
+        globals.setGlobalIfUndefined("grid_fragshader", function() {
             return file_util.loadFileStr(path.join(__dirname, '../../glsl/grid_fragshader.frag'))
         })
 
-        this.rect = this.PIXI.Sprite.from(this.PIXI.Texture.WHITE)
-
-        this.rect.filters = [ null ]
+        this.rect = PIXI.Sprite.from(PIXI.Texture.WHITE)
 
         this.setParameters(params)
 
-        this.rect.filters[0] = new this.PIXI.Filter('', global_vars.getCachedGlobal("grid_fragshader"), params)
+        this.rect.filters = [ new PIXI.Filter('', globals.getCachedGlobal("grid_fragshader"), params) ]
 
     }
 
-    addFilter(filter) { this.rect.filters.push(filter) }
+    addFilter(filter: PIXI.Filter) { this.rect.filters.push(filter) }
 
-    resize(vpw, vph) {
+    resize(vpw: number, vph: number) {
 
         this.params.vpw = vpw
         this.params.vph = vph
@@ -35,7 +42,7 @@ class GridShad {
 
     }
 
-    setParameters(params) {
+    setParameters(params: IHash) {
 
         if(params.vpw == null) params.vpw = 800;
         if(params.vph == null) params.vph = 600;
@@ -58,7 +65,7 @@ class GridShad {
 
     }
 
-    setSize(width, height) {
+    setSize(width: number, height: number) {
 
         this.params.width = width
         this.params.height = height
@@ -67,7 +74,7 @@ class GridShad {
 
     }
 
-    setPitch(width, height) {
+    setPitch(width: number, height: number) {
 
         this.params.pitch = [width, height]
         
@@ -75,7 +82,7 @@ class GridShad {
 
     }
 
-    setPosition(x, y) {
+    setPosition(x: number, y: number) {
 
         this.rect.x = x
         this.rect.y = y
@@ -86,7 +93,7 @@ class GridShad {
 
     }
 
-    setGridLineColor(color) { 
+    setGridLineColor(color: Color) { 
         
         this.params.line_color = color
 
@@ -94,25 +101,27 @@ class GridShad {
 
     }
 
-    getSize() { return [this.params.width, this.params.height] }
+    getSize(): Array<number> { return [this.params.width, this.params.height] }
 
-    getRect() { return this.rect }
+    getRect(): PIXI.Sprite { return this.rect }
 
-    getPitch() { return this.params.pitch }
+    getPitch(): number { return this.params.pitch }
 
-    getParameters() { return this.params }
+    getParameters(): IHash { return this.params }
 
-    getPosition() { return [this.rect.x, this.rect.y] }
+    getPosition(): Array<number> { return [this.rect.x, this.rect.y] }
 
 }
 
-module.exports.Grid = class Grid {
+export class Grid {
 
-    gShad = null
+    gShad!: GridShad
 
-    params = {}
+    params: IHash = {}
 
-    constructor(params) {
+    initial_line_color: Color;
+
+    constructor(params: IHash) {
 
         if(params.vpw == null) params.vpw = 800
         if(params.vph == null) params.vph = 600
@@ -152,17 +161,17 @@ module.exports.Grid = class Grid {
 
     }
 
-    getRect() { return this.gShad.getRect() }
+    getRect(): PIXI.Sprite { return this.gShad.getRect() }
 
-    getSize() { return this.gShad.getSize() }
+    getSize(): Array<number> { return this.gShad.getSize() }
 
-    getPosition() { return this.gShad.getPosition() }
+    getPosition(): Array<number> { return this.gShad.getPosition() }
 
-    vpResize(vpw, vph) { this.gShad.resize(vpw, vph) }
+    vpResize(vpw: number, vph: number) { this.gShad.resize(vpw, vph) }
 
-    setPosition(x, y) { this.gShad.setPosition(x, y) }
+    setPosition(x: number, y: number) { this.gShad.setPosition(x, y) }
 
-    setSize(width, height) { 
+    setSize(width: number, height: number) { 
 
         this.gShad.setSize(width, height) 
 
@@ -174,7 +183,7 @@ module.exports.Grid = class Grid {
         const avg_pitch = (pitch_w + pitch_h) / 2
         const multiply_by = (avg_pitch / 8) * 100
 
-        const newColor = tiny_color(this.initial_line_color.toHexStr())
+        const newColor = tinycolor(this.initial_line_color.toHexString())
 
 //        newColor.darken((newColor.getBrightness() / 255) * multiply_by)
 
@@ -182,7 +191,7 @@ module.exports.Grid = class Grid {
 
     }
 
-    addResizeEvent(html_window) {
+    addResizeEvent(html_window: Window) {
 
         const gs = this.gShad //we need a local variable of the gridshad
 
@@ -195,5 +204,3 @@ module.exports.Grid = class Grid {
     }
 
 }
-
-module.exports.GridShad = GridShad

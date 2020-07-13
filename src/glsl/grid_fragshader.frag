@@ -28,11 +28,10 @@ void main() {
   float offY = position.y - (vph - gl_FragCoord.y);
 
   if ((int(mod(offX, pitch[0])) == 0 ||
-      int(mod(offY, pitch[1])) == 0)) {
+      int(mod(offY, pitch[1])) == 0))
     gl_FragColor = line_color;
-  } else {
+  else
     gl_FragColor = vec4(0.0, 0.0, 0.0, 0.0);
-  }
 
   //border calculation part, also with the weird fixes :)
   float min_x = position.x + border_size;
@@ -42,10 +41,8 @@ void main() {
   float max_y = position.y + (height - border_size);
 
   if( gl_FragCoord.x <= min_x || gl_FragCoord.x >= max_x ||
-    (vph - gl_FragCoord.y) <= min_y || (vph - gl_FragCoord.y) >= max_y ) {
+    (vph - gl_FragCoord.y) <= min_y || (vph - gl_FragCoord.y) >= max_y )
 
     gl_FragColor = border_color;
-
-  }
 
 }

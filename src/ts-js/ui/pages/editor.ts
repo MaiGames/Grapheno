@@ -1,23 +1,21 @@
 const PIXI = require('pixi.js')
 const install = require('@pixi/unsafe-eval').install
-const tinycolor = require('tinycolor2')
 
-const pixel_canvas = require('../js-dist/graphics/canvas/pixel_canvas')
+import PixelCanvas from '../../graphics/canvas/pixel_canvas'
 
-const array_util = require('../js-dist/util/array_util')
-const global_vars = require('../js-dist/global');
+import * as globals from '../../global'
+import { remote } from 'electron'
 
-const manager = global_vars.getCachedGlobal('general_manager')
+const manager = globals.getCachedGlobal('general_manager')
 
-var pix_app = null
-var canvas = null
+var pix_app: PIXI.Application
+var canvas: PixelCanvas
 
-manager.eventEmitter.on("finish-init-preload", (event) => {
+manager.eventEmitter.on("finish-init-preload", () => {
 
     install(PIXI) //apply patch for unsafe-eval
 
     pix_app = new PIXI.Application({
-      autoResize: true,
       transparent: true,
       resolution: devicePixelRatio
     });
@@ -35,7 +33,7 @@ manager.eventEmitter.on("finish-init-preload", (event) => {
 
     resize()
     
-    canvas = new pixel_canvas.PixelCanvas(pix_app, window, {
+    canvas = new PixelCanvas(pix_app, window, {
 
         sqs_width: 20,
         sqs_height: 20,
@@ -49,14 +47,14 @@ manager.eventEmitter.on("finish-init-preload", (event) => {
 
     canvas.init()
 
-    document.getElementsByTagName("canvas")[0].addEventListener("wheel", (event) => {
+    document.getElementsByTagName("canvas")[0].addEventListener("wheel", (event: WheelEvent) => {
         canvas.scroll(Math.round(canvas.grid.getPosition()[0] + event.deltaX), 
                       Math.round(canvas.grid.getPosition()[1] + event.deltaY))
     })
 
 })
 
-manager.eventEmitter.on("close-btt", (evt) => {
+manager.eventEmitter.on("close-btt", () => {
 
     remote.getCurrentWindow().hide()
 

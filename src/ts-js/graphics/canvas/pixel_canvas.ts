@@ -1,16 +1,16 @@
-const array_util = require('../../util/array_util')
-const color_util = require('../../util/color_util')
+import * as array_util from '../../util/array_util'
+import * as color_util from '../../util/color_util'
 
-const gh_grid = require('../grid')
+import { Grid } from '../grid'
 
-const Canvas = require('./canvas').Canvas
-const Layer = require('./canvas').Layer
+import { Canvas, Layer } from './canvas'
+import { IHash } from '../../util/interfaces'
 
-module.exports.PixelCanvas = class PixelCanvas extends Canvas {
+export default class PixelCanvas extends Canvas {
     
-    intervals = []
+    grid!: Grid
 
-    constructor(pix_app, html_window, params, layers = []) {
+    constructor(pix_app: PIXI.Application, html_window: Window, params: IHash, layers: Array<PixelLayer> = []) {
 
         super(pix_app, html_window, params, layers)
         
@@ -20,7 +20,7 @@ module.exports.PixelCanvas = class PixelCanvas extends Canvas {
 
     init() {
         
-        this.grid = new gh_grid.Grid({
+        this.grid = new Grid({
 
             vpw: this.html_window.innerWidth,
             vph: this.html_window.innerHeight,
@@ -48,23 +48,23 @@ module.exports.PixelCanvas = class PixelCanvas extends Canvas {
 
     }
 
-    addLayer(layer, index) {
+    addLayer(layer: Layer, index: number) {
 
-        for(lay in layers) {
-
+        for(const lay of this.layers) {
+            
             if(lay.name == layer.name) return false
 
         }
 
         layer.canvas = this
 
-        this.layers = array_util.displace_insert_at_index(layers, layer, index)
+        this.layers = array_util.displace_insert_at_index(this.layers, layer, index)
 
     }
 
-    moveLayer(layer_name, to_index) {
+    moveLayer(layer_name: string, to_index: number) {
 
-        layIndex = this.getLayerIndex()
+        const layIndex = this.getLayerIndex(layer_name)
 
         if(layIndex == null) return false
 
@@ -74,29 +74,32 @@ module.exports.PixelCanvas = class PixelCanvas extends Canvas {
 
     }
 
-    getLayers() { return this.layers }
+    getLayers(): Array<Layer> | undefined { return this.layers }
 
-    getLayer(layer_name) {
+    getLayer(layer_name: String): Layer | undefined {
 
-        for(lay in this.layers) {
+        for(const lay of this.layers) {
 
-            if(lay.name == layer.name) return lay
+            if(lay.name == layer_name) return lay
 
         }
 
-        return null
+        return undefined
 
     }
 
-    getLayerIndex(layer_name) {
+    getLayerIndex(layer_name: String): number | undefined {
 
-        for(i of this.layers) {
+        var count = 0
+        for(const i in this.layers) {
 
-            if(this.layers[i].name == layer.name) return this.layers[i]
+            if(this.layers[i].name == layer_name) return count
+
+            count++
 
         }
 
-        return null
+        return undefined
 
     }
 
@@ -129,9 +132,9 @@ module.exports.PixelCanvas = class PixelCanvas extends Canvas {
 
 }
 
-module.exports.PixelLayer = class PixelLayer extends Layer {
+export class PixelLayer extends Layer {
 
-    constructor(name){
+    constructor(name: string){
 
         super(name)
 
