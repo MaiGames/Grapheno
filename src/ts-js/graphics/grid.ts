@@ -1,5 +1,5 @@
 import * as globals from '../global'
-import { IHash } from '../util/interfaces';
+import { IHash } from '../interfaces';
 
 import * as PIXI from 'pixi.js'
 
@@ -15,12 +15,12 @@ type Color = tinycolor.Instance
 export class GridShad {
 
     rect: PIXI.Sprite
-    params: IHash  = { }
+    params: IHash = { }
 
     constructor(params: IHash) {
         
         globals.setGlobalIfUndefined("grid_fragshader", function() {
-            return file_util.loadFileStr(path.join(__dirname, '../../glsl/grid_fragshader.frag'))
+            return file_util.load_file(path.join(__dirname, '../../glsl/grid.frag'))
         })
 
         this.rect = PIXI.Sprite.from(PIXI.Texture.WHITE)

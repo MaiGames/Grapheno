@@ -1,5 +1,5 @@
 import * as fs from 'fs'
-import { IHash } from "./interfaces";
+import { IHash } from "../interfaces";
 
 export default class Lang {
 

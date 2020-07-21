@@ -1,4 +1,4 @@
-import { IHash } from "./interfaces";
+import { IHash } from "../interfaces";
 
 import * as fs from 'fs'
 import tinycolor from 'tinycolor2';

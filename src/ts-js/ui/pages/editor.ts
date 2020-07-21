@@ -45,13 +45,6 @@ manager.eventEmitter.on("finish-init-preload", () => {
     
     })
 
-    canvas.init()
-
-    document.getElementsByTagName("canvas")[0].addEventListener("wheel", (event: WheelEvent) => {
-        canvas.scroll(Math.round(canvas.grid.getPosition()[0] + event.deltaX), 
-                      Math.round(canvas.grid.getPosition()[1] + event.deltaY))
-    })
-
 })
 
 manager.eventEmitter.on("close-btt", () => {

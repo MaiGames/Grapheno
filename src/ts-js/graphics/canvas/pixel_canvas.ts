@@ -4,22 +4,30 @@ import * as color_util from '../../util/color_util'
 import { Grid } from '../grid'
 
 import { Canvas, Layer } from './canvas'
-import { IHash } from '../../util/interfaces'
+import { IHash } from '../../interfaces'
+
+import { IHandlerChild, HandleCallMode, HandlerParent } from '../../util/handling'
+
+import { KeyboardInput } from '../../input/keyboard_input'
 
 export default class PixelCanvas extends Canvas {
     
     grid!: Grid
 
-    constructor(pix_app: PIXI.Application, html_window: Window, params: IHash, layers: Array<PixelLayer> = []) {
+    handler: HandlerParent = new HandlerParent()
+    
+    key_input = new KeyboardInput(document.body)
 
-        super(pix_app, html_window, params, layers)
+    constructor(pixi_app: PIXI.Application, html_window: Window, params: IHash, layers: Array<PixelLayer> = []) {
+
+        super(pixi_app, html_window, params, layers)
         
         this.init()
 
     }
 
-    init() {
-        
+    private init() {
+
         this.grid = new Grid({
 
             vpw: this.html_window.innerWidth,
@@ -38,13 +46,9 @@ export default class PixelCanvas extends Canvas {
 
         this.grid.addResizeEvent(this.html_window)
      
-        //center grid in the middle of the screen
-        this.grid.setPosition( (this.pix_app.renderer.width / 2) - (this.grid.getRect().width / 2), 
-                               (this.pix_app.renderer.height / 2 ) - (this.grid.getRect().height / 2) )
+        this.pixi_app.stage.addChild(this.grid.getRect())
 
-        this.pix_app.stage.addChild(this.grid.getRect())
-
-        this.registerEvents()
+        this.registerHandlers()
 
     }
 
@@ -91,6 +95,7 @@ export default class PixelCanvas extends Canvas {
     getLayerIndex(layer_name: String): number | undefined {
 
         var count = 0
+
         for(const i in this.layers) {
 
             if(this.layers[i].name == layer_name) return count
@@ -103,22 +108,26 @@ export default class PixelCanvas extends Canvas {
 
     }
 
-    registerEvents() {
+    private registerHandlers() {
         
-        var beforeWidth = this.html_window.innerWidth
-        var beforeHeight = this.html_window.innerHeight
-        
-        const inGrid = this.grid
+        this.handler.addHandlerChild("ResizeHandler", new ResizeHandler(this.html_window, this.grid))
+        this.handler.addHandlerChild("ScrollHandler", new ScrollHandler(this.grid, this.pixi_app))
 
-        this.html_window.addEventListener("resize", () => {
-            
-            const deltaWidth = (this.html_window.innerWidth - beforeWidth) /2
-            const deltaHeight = (this.html_window.innerHeight - beforeHeight) / 2
+        this.addHandleDefaults()
 
-            inGrid.setPosition(inGrid.getRect().x + deltaWidth, inGrid.getRect().y + deltaHeight)
+    }
 
-            beforeWidth = this.html_window.innerWidth
-            beforeHeight = this.html_window.innerHeight
+    private addHandleDefaults() {
+
+        this.html_window.addEventListener("resize", () => { this.handler.handleSingle("ResizeHandler", {}) })
+
+        document.getElementsByTagName("canvas")[0].addEventListener("wheel", (event) => {
+
+            this.handler.handleSingle("ScrollHandler", { 
+                deltaX: event.deltaX, 
+                deltaY: event.deltaY,
+                invert: this.key_input.isKeyCodeDown(16) //if shift is down, switch/invert x and y delta
+            })
 
         })
 
@@ -137,6 +146,100 @@ export class PixelLayer extends Layer {
     constructor(name: string){
 
         super(name)
+
+    }
+
+}
+
+class ScrollHandler implements IHandlerChild {
+
+    grid: Grid
+    pixi_app: PIXI.Application
+
+    scrollX: number = 0
+    scrollY: number = 0
+    
+    resize_handler: ResizeHandler
+
+    parent: HandlerParent
+   
+    constructor(grid: Grid, pixi_app: PIXI.Application) {
+
+        this.grid = grid
+        this.pixi_app = pixi_app
+
+        this.scrollX = (this.pixi_app.renderer.width / 2) - (this.grid.getRect().width / 2) 
+        this.scrollY = (this.pixi_app.renderer.height / 2 ) - (this.grid.getRect().height / 2)
+
+    }
+
+    init() {
+
+        this.resize_handler = <ResizeHandler> <unknown> this.parent.getHandlerChild("ResizeHandler")
+
+    }
+
+    handle(params: IHash, mode: HandleCallMode): any {
+
+        const delta_x: number = params['deltaX']
+        const delta_y: number = params['deltaY']
+
+        if(params['invert']) {
+            this.setScrollCoords(this.scrollX + delta_y, this.scrollY + delta_x)        
+        } else {
+            this.setScrollCoords(this.scrollX + delta_x, this.scrollY + delta_y) 
+        }
+
+    }
+
+    setScrollCoords(scroll_x: number, scroll_y: number) {
+
+        this.scrollX = scroll_x
+        this.scrollY = scroll_y
+
+        this.grid.setPosition(this.scrollX, this.scrollY)
+
+    }
+
+}
+
+class ResizeHandler implements IHandlerChild {
+
+    grid: Grid
+    html_window: Window
+
+    before_width: number
+    before_height: number
+
+    parent: HandlerParent
+    
+    constructor(html_window: Window, grid: Grid) {
+
+        this.html_window = html_window
+
+        this.grid = grid
+
+    }
+
+    init() {
+        
+        this.before_width = this.html_window.innerWidth
+        this.before_height = this.html_window.innerHeight
+
+    }
+
+    handle(params: IHash, mode: HandleCallMode): any {
+
+        if(mode == HandleCallMode.AllHandlerCall) return
+
+        const delta_width = (this.html_window.innerWidth - this.before_width) / 2
+        const delta_height = (this.html_window.innerHeight - this.before_height) / 2
+
+        const scroll_handler = <ScrollHandler> <unknown> this.parent.getHandlerChild("ScrollHandler")
+        scroll_handler.setScrollCoords(scroll_handler.scrollX + delta_width, scroll_handler.scrollY + delta_height)
+
+        this.before_width = this.html_window.innerWidth
+        this.before_height = this.html_window.innerHeight
 
     }
 

@@ -1,5 +1,5 @@
 import { IpcMain, ipcRenderer, remote } from 'electron'
-import { IHash } from "./util/interfaces"
+import { IHash } from "./interfaces"
 
 import { EventEmitter } from 'events'
 

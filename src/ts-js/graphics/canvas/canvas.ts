@@ -1,17 +1,20 @@
 import { EventEmitter } from 'events'
-import { IHash } from '../../util/interfaces'
+import { IHash } from '../../interfaces'
 
 import tinycolor from 'tinycolor2'
+import { HandlerParent } from '../../util/handling'
 
-export class Canvas extends EventEmitter {
+export class Canvas extends HandlerParent {
+
+    emitter = new EventEmitter()
 
     params: IHash 
     layers: Layer[]
 
-    pix_app: PIXI.Application
+    pixi_app: PIXI.Application
     html_window: Window
      
-    constructor(pix_app: PIXI.Application, html_window: Window, params: IHash, layers: Array<Layer> = []) {
+    constructor(pixi_app: PIXI.Application, html_window: Window, params: IHash, layers: Array<Layer> = []) {
 
         super()
 
@@ -27,7 +30,7 @@ export class Canvas extends EventEmitter {
         this.params = params
         this.layers = layers
 
-        this.pix_app = pix_app
+        this.pixi_app = pixi_app
         this.html_window = html_window
 
     }
@@ -41,8 +44,6 @@ export class Canvas extends EventEmitter {
     getLayer(layer_name: string): Layer | undefined { return undefined }
 
     getLayerIndex(layer_name: string): number | undefined { return undefined }
-
-    scroll(deltaX: number, deltaY: number) { }
 
     destroy() { }
 

@@ -1,21 +1,21 @@
 //const path = require('path')
 import * as fs from 'fs'
-import { IHash } from './interfaces'
+import { IHash } from '../interfaces'
 
-const fileStrCache: IHash = {}
+const file_str_cache: IHash = {}
 
-export function loadFileStr(path: string) {
+export function load_file(path: string): string {
 
-    fileStrCache[path] = fs.readFileSync(path).toString()
+    file_str_cache[path] = fs.readFileSync(path).toString()
 
-    return fileStrCache[path]
+    return file_str_cache[path]
 
 }
 
-export function loadCachedFileStr(path: string) {
+export function load_cached_file(path: string): string {
 
-    if(fileStrCache[path] == undefined) fileStrCache[path] = fs.readFileSync(path).toString()
+    if(file_str_cache[path] == undefined) file_str_cache[path] = fs.readFileSync(path).toString()
 
-    return fileStrCache[path]
+    return file_str_cache[path]
 
 }
