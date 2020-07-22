@@ -36,7 +36,7 @@ export class KeyboardInput {
 
     isKeyDown(key: string): boolean {
 
-        for(let [entry, value] of Object.entries(this.keysDown)) {
+        for(let value of Object.values(this.keysDown)) {
 
             if(value == key) return true
 

@@ -7,12 +7,16 @@
 * event declaration.
 */
 
-import {ipcRenderer, remote} from 'electron'
+import { remote } from 'electron'
 import fs from 'fs'
 import path from 'path'
 import * as globals from './global'
 
 import GeneralManager from './general_manager'
+
+const e_window = remote.getCurrentWindow()
+
+const manager: GeneralManager = new GeneralManager()
 
 /*
  * Global variables that are the contents of the head and the body that
@@ -22,12 +26,6 @@ import GeneralManager from './general_manager'
  * to worry about it taking too much time to load everytime a new page loads.
  */
 globals.setGlobalIfUndefined("_bodies", function() { return fs.readFileSync(path.join(__dirname, '/../html/_bodies.html'), 'utf8') })
-
-const e_window = remote.getCurrentWindow()
-
-var hideMinimizeMaximize = false
-
-const manager: GeneralManager = new GeneralManager()
 
 globals.setGlobalIfUndefined("general_manager", function() { return manager })
 

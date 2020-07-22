@@ -25,7 +25,7 @@ remote.getCurrentWindow().on("finish-init-preload", (event) => {
 
     toResizeElem.style.height = "240px"
 
-    resizeLineElem = document.getElementById("resize-bar")
+    const resizeLineElem = document.getElementById("resize-bar")
 
     resizeLineElem.style.bottom = "254.5px"
 
@@ -58,7 +58,6 @@ remote.getCurrentWindow().on("finish-init-preload", (event) => {
             stopResize()
             return
         }
-
 
         height -= currY
 

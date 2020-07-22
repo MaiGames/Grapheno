@@ -1,39 +1,33 @@
 const PIXI = require('pixi.js')
 const install = require('@pixi/unsafe-eval').install
 
-import PixelCanvas from '../../graphics/canvas/pixel_canvas'
-
-import * as globals from '../../global'
 import { remote } from 'electron'
+
+import PixelCanvas from '../../graphics/canvas/pixel_canvas'
+import * as globals from '../../global'
 
 const manager = globals.getCachedGlobal('general_manager')
 
-var pix_app: PIXI.Application
+var pixi_app: PIXI.Application
 var canvas: PixelCanvas
 
 manager.eventEmitter.on("finish-init-preload", () => {
 
     install(PIXI) //apply patch for unsafe-eval
 
-    pix_app = new PIXI.Application({
+    pixi_app = new PIXI.Application({
       transparent: true,
       resolution: devicePixelRatio
     });
     
-    document.body.appendChild(pix_app.view);
+    document.body.appendChild(pixi_app.view);
 
     // Listen for window resize events
     window.onresize = resize
 
-    window.onmousemove = function() {
-
-        const pos = [pix_app.renderer.plugins.interaction.mouse.global.x, pix_app.renderer.plugins.interaction.mouse.global.y]
-
-    }
-
     resize()
     
-    canvas = new PixelCanvas(pix_app, window, {
+    canvas = new PixelCanvas(pixi_app, window, {
 
         sqs_width: 20,
         sqs_height: 20,
@@ -53,20 +47,14 @@ manager.eventEmitter.on("close-btt", () => {
 
     // On macOS it is common for applications and their menu bar
     // to stay active until the user quits explicitly with Cmd + Q
-    if (process.platform !== 'darwin') request_quit()
+    if (process.platform !== 'darwin') remote.app.quit()
 
 })
-
-function request_quit() {
-
-    remote.app.quit()
-
-}
 
 // Resize function window
 function resize() {
 
     // Resize the renderer
-    pix_app.renderer.resize(window.innerWidth, window.innerHeight)
+    pixi_app.renderer.resize(window.innerWidth, window.innerHeight)
     
 }

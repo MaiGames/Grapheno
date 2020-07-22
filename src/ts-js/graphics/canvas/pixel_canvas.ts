@@ -14,8 +14,6 @@ export default class PixelCanvas extends Canvas {
     
     grid!: Grid
 
-    handler: HandlerParent = new HandlerParent()
-    
     key_input = new KeyboardInput(document.body)
 
     constructor(pixi_app: PIXI.Application, html_window: Window, params: IHash, layers: Array<PixelLayer> = []) {
@@ -110,8 +108,8 @@ export default class PixelCanvas extends Canvas {
 
     private registerHandlers() {
         
-        this.handler.addHandlerChild("ResizeHandler", new ResizeHandler(this.html_window, this.grid))
-        this.handler.addHandlerChild("ScrollHandler", new ScrollHandler(this.grid, this.pixi_app))
+        this.addHandlerChild("ResizeHandler", new ResizeHandler(this.html_window, this.grid))
+        this.addHandlerChild("ScrollHandler", new ScrollHandler(this.grid, this.pixi_app))
 
         this.addHandleDefaults()
 
@@ -119,11 +117,11 @@ export default class PixelCanvas extends Canvas {
 
     private addHandleDefaults() {
 
-        this.html_window.addEventListener("resize", () => { this.handler.handleSingle("ResizeHandler", {}) })
+        this.html_window.addEventListener("resize", () => { this.handleSingle("ResizeHandler", {}) })
 
         document.getElementsByTagName("canvas")[0].addEventListener("wheel", (event) => {
 
-            this.handler.handleSingle("ScrollHandler", { 
+            this.handleSingle("ScrollHandler", { 
                 deltaX: event.deltaX, 
                 deltaY: event.deltaY,
                 invert: this.key_input.isKeyCodeDown(16) //if shift is down, switch/invert x and y delta
@@ -198,6 +196,27 @@ class ScrollHandler implements IHandlerChild {
         this.scrollY = scroll_y
 
         this.grid.setPosition(this.scrollX, this.scrollY)
+
+    }
+
+}
+
+class ScrollBarHandler implements IHandlerChild {
+
+    pixi_app: PIXI.Application
+    parent: HandlerParent
+
+    constructor(pixi_app: PIXI.Application) {
+
+        this.pixi_app = pixi_app
+    
+    }
+
+    init() {
+
+    }
+
+    handle(params: IHash, mode: HandleCallMode) {
 
     }
 
