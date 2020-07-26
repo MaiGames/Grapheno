@@ -19,8 +19,6 @@ export function tint_filter(tint_color: Color): PIXI.Filter {
         tint_color: color 
     })
 
-    console.log(color)
-
     return filter
 
 }

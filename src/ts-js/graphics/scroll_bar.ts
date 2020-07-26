@@ -10,6 +10,8 @@ import { tint_filter } from "./tint"
 
 export enum ScrollBarOrientation { Vertical, Horizontal }
 
+const k_size_multiplier = 335
+
 export class ScrollBar {
 
     params: IHash
@@ -26,7 +28,7 @@ export class ScrollBar {
     constructor(params: IHash, pixi_app: PIXI.Application) {
 
         if(params.orientation == null) params.orientation = ScrollBarOrientation.Vertical
-        
+
         if(params.bar_w == null) params.bar_w = 1
         if(params.bar_h == null) params.bar_h = 30
         if(params.bar_x == null) params.bar_x = 200
@@ -35,8 +37,8 @@ export class ScrollBar {
         if(params.full_bar_color == null) params.full_bar_color = tinycolor("yellow")
         if(params.inner_bar_color == null) params.inner_bar_color = tinycolor("white")
 
-        if(params.initial_scroll_percent == null) params.initial_scroll_percent = 0.2
-        if(params.scroll_size_percent == null) params.scroll_size_percent = 0.3
+        if(params.initial_scroll_percent == null) params.initial_scroll_percent = 1
+        if(params.scroll_size_percent == null) params.scroll_size_percent = 0.2
 
         if(params.mouse_draggable == null) params.mouse_draggable = true
 
@@ -98,7 +100,7 @@ export class ScrollBar {
 
             case ScrollBarOrientation.Horizontal:
 
-                const new_inner_bar_x = (this.full_bar.position.x + this.full_bar.scale.x) * pos_percentage
+                const new_inner_bar_x = this.full_bar.position.x + (this.full_bar.scale.x * pos_percentage)
                 this.scroll_position_percent = pos_percentage
                 
                 this.inner_bar.position.set(new_inner_bar_x, this.full_bar.position.y)
@@ -106,8 +108,13 @@ export class ScrollBar {
 
             case ScrollBarOrientation.Vertical:
 
-                const new_inner_bar_y = (this.full_bar.position.y + this.full_bar.scale.y) * pos_percentage
+                const new_inner_bar_y = this.full_bar.position.y + (this.full_bar.scale.y * pos_percentage) * (k_size_multiplier / this.full_bar.scale.y)
                 this.scroll_position_percent = pos_percentage
+
+                console.log(this.full_bar.scale.y) // 30
+                console.log(this.full_bar.position.y) //200
+                console.log(pos_percentage) //1
+                console.log(new_inner_bar_y)
 
                 this.inner_bar.position.set(this.full_bar.position.x, new_inner_bar_y)
                 break

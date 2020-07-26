@@ -66,6 +66,7 @@ deploy:
   provider: releases
   token: $GH_TOKEN
   name: commit-"$TRAVIS_COMMIT_MESSAGE"-$TRAVIS_COMMIT
+  overwrite: true
   draft: true
   file: 
     - "dist/grapheno-installer.exe"
