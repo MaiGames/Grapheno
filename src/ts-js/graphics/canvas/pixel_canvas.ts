@@ -9,6 +9,7 @@ import { IHash } from '../../interfaces'
 import { IHandlerChild, HandleCallMode, HandlerParent } from '../../util/handling'
 
 import { KeyboardInput } from '../../input/keyboard_input'
+import { ScrollBar } from '../scroll_bar'
 
 export default class PixelCanvas extends Canvas {
     
@@ -110,6 +111,7 @@ export default class PixelCanvas extends Canvas {
         
         this.addHandlerChild("ResizeHandler", new ResizeHandler(this.html_window, this.grid))
         this.addHandlerChild("ScrollHandler", new ScrollHandler(this.grid, this.pixi_app))
+        this.addHandlerChild("ScrollBarHandler", new ScrollBarHandler(this.pixi_app))
 
         this.addHandleDefaults()
 
@@ -122,7 +124,7 @@ export default class PixelCanvas extends Canvas {
         document.getElementsByTagName("canvas")[0].addEventListener("wheel", (event) => {
 
             this.handleSingle("ScrollHandler", { 
-                deltaX: event.deltaX, 
+                deltaX: event.deltaX,
                 deltaY: event.deltaY,
                 invert: this.key_input.isKeyCodeDown(16) //if shift is down, switch/invert x and y delta
             })
@@ -132,8 +134,6 @@ export default class PixelCanvas extends Canvas {
     }
 
     destroy() {
-
-
 
     }
 
@@ -182,11 +182,10 @@ class ScrollHandler implements IHandlerChild {
         const delta_x: number = params['deltaX']
         const delta_y: number = params['deltaY']
 
-        if(params['invert']) {
+        if(params['invert'])
             this.setScrollCoords(this.scrollX + delta_y, this.scrollY + delta_x)        
-        } else {
+        else
             this.setScrollCoords(this.scrollX + delta_x, this.scrollY + delta_y) 
-        }
 
     }
 
@@ -206,9 +205,13 @@ class ScrollBarHandler implements IHandlerChild {
     pixi_app: PIXI.Application
     parent: HandlerParent
 
+    scroll_bar: ScrollBar
+
     constructor(pixi_app: PIXI.Application) {
 
         this.pixi_app = pixi_app
+
+        this.scroll_bar = new ScrollBar({}, pixi_app)
     
     }
 

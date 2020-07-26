@@ -36,7 +36,7 @@ manager.eventEmitter.on("finish-init-preload", () => {
 
         grid_linecolor: manager.theme.getCurrThemeColor("canvas_grid_linecolor"),
         grid_border_linecolor: manager.theme.getCurrThemeColor("canvas_grid_border_linecolor")
-    
+
     })
 
 })

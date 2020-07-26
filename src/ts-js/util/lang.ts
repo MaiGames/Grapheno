@@ -3,7 +3,7 @@ import { IHash } from "../interfaces";
 
 export default class Lang {
 
-    loaded_langs: Array<{lang: IHash, lang_name: string}> = []
+    loaded_langs: Array< {lang: IHash, lang_name: string} > = []
 
     curr_lang_i = 0;
 

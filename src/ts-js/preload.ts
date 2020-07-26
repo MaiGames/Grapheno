@@ -52,9 +52,9 @@ function init() {
    * firstInit part: We'll determine if this is the first initialization in the whole
    * program, and then emit an event depending on this. 
    */
-  globals.setGlobalIfUndefined("firstInit", function() { return true })
+  globals.setGlobalIfUndefined("first_init", function() { return true })
 
-  if(!globals.getGlobal('firstInit')) { //stuff to do when this is not the first init (first time loaded)
+  if(!globals.getGlobal('first_init')) { //stuff to do when this is not the first init (first time loaded)
   
     //we'll simply emit an event for the current page to decide what to do
     manager.eventEmitter.emit("not-first-init") 
@@ -64,7 +64,7 @@ function init() {
     //we'll simply emit an event for the current page to decide what to do
     manager.eventEmitter.emit("first-init") 
 
-    globals.setGlobal("firstInit", false) //for next inits checking
+    globals.setGlobal("first_init", false) //for next inits checking
 
   }
 

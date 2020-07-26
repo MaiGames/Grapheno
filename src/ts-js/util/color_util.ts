@@ -1,6 +1,6 @@
 import "tinycolor2"
 
-type Color = tinycolor.Instance
+export type Color = tinycolor.Instance
 
 export function toDecimalRGBArray4(color: Color) {
 
