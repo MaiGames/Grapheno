@@ -10,8 +10,6 @@ import * as color_util from '../util/color_util'
 
 import tinycolor from 'tinycolor2';
 
-type Color = tinycolor.Instance
-
 export class GridShad {
 
     rect: PIXI.Sprite
@@ -93,7 +91,7 @@ export class GridShad {
 
     }
 
-    setGridLineColor(color: Color) { 
+    setGridLineColor(color: color_util.Color) { 
         
         this.params.line_color = color
 
@@ -119,7 +117,7 @@ export class Grid {
 
     params: IHash = {}
 
-    initial_line_color: Color;
+    initial_line_color: color_util.Color
 
     constructor(params: IHash) {
 
@@ -193,12 +191,10 @@ export class Grid {
 
     addResizeEvent(html_window: Window) {
 
-        const gs = this.gShad //we need a local variable of the gridshad
+        this.gShad.resize(window.innerWidth, window.innerHeight)
 
-        gs.resize(window.innerWidth, window.innerHeight)
-
-        html_window.addEventListener('resize', function() { 
-            gs.resize(window.innerWidth, window.innerHeight)
+        html_window.addEventListener('resize', () => { 
+            this.gShad.resize(window.innerWidth, window.innerHeight)
         })
 
     }

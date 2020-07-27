@@ -1,4 +1,3 @@
-//const path = require('path')
 import * as fs from 'fs'
 import { IHash } from '../interfaces'
 

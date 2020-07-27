@@ -7,7 +7,7 @@ import * as globals from '../global'
 import * as file_util from '../util/file_util'
 import * as color_util from '../util/color_util'
 
-export function tint_filter(tint_color: Color): PIXI.Filter {
+export function get_tint_filter(tint_color: Color): PIXI.Filter {
 
     globals.setGlobalIfUndefined("tint_fragshader", function() { 
         return file_util.load_file(path.join(__dirname, '../../glsl/tint.frag')) 

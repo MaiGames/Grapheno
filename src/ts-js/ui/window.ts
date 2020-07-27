@@ -36,7 +36,7 @@ export default class Window {
 
             this.b_window.webContents.on('did-finish-load', function() {
 
-                if(maximize) win.maximize()
+                //if(maximize) win.maximize()
                 win.show()
                 
             });

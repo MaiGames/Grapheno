@@ -5,6 +5,9 @@
     "canvas_grid_linecolor": "gray",
     "canvas_grid_border_linecolor": "gray",
 
+    "scroll_full_bar": "rgba (69, 69, 69, 0.5)",
+    "scroll_inner_bar": "rgba (138, 138, 138, 0.5)",
+
     "--titlebar-bg": "#424242",
     "--titlebar-btt-hover": "#5C5C5E",
     "--title-text": "#bdbdbd",
@@ -22,5 +25,5 @@
     "--bars-text-hover-2": "#bfc7c7",
     "--bars-invert-2": "$0.25",
     "--bars-invert-hover-2": "$0.10"
-
+ 
 }

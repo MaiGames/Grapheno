@@ -3,7 +3,7 @@ const install = require('@pixi/unsafe-eval').install
 
 import { remote } from 'electron'
 
-import PixelCanvas from '../../graphics/canvas/pixel_canvas'
+import PixelCanvas from '../../graphics/canvas/pixel/pixel_canvas'
 import * as globals from '../../global'
 
 const manager = globals.getCachedGlobal('general_manager')
@@ -17,8 +17,9 @@ manager.eventEmitter.on("finish-init-preload", () => {
 
     pixi_app = new PIXI.Application({
       transparent: true,
-      resolution: devicePixelRatio
-    });
+      resolution: devicePixelRatio,
+      resizeTo: window
+    })
     
     document.body.appendChild(pixi_app.view);
 
@@ -54,7 +55,4 @@ manager.eventEmitter.on("close-btt", () => {
 // Resize function window
 function resize() {
 
-    // Resize the renderer
-    pixi_app.renderer.resize(window.innerWidth, window.innerHeight)
-    
 }
